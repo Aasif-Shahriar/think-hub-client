@@ -1,15 +1,26 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FaBell, FaChevronDown } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await logout();
+      await logout(); // Firebase signOut
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/logout`,
+        {},
+        { withCredentials: true }
+      );
+      toast.success("Logged out!");
+      navigate("/join-us");
     } catch (err) {
       console.error("Logout error:", err);
+      toast.error("Logout failed.");
     }
   };
 
@@ -20,7 +31,9 @@ const Navbar = () => {
         <div className="navbar-start">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold">
             <img src="/logo.png" alt="logo" className="w-8 h-8 rounded" />
-            <span className="hidden sm:inline-block text-blue-500">ThinkHub</span>
+            <span className="hidden sm:inline-block text-blue-500">
+              ThinkHub
+            </span>
           </Link>
         </div>
 
@@ -54,9 +67,11 @@ const Navbar = () => {
                 <img
                   src={user.photoURL || "/default-avatar.png"}
                   alt="avatar"
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="w-8 h-8 rounded-full object-cover bg-white"
                 />
-                <h5>{user.displayName || 'null'}</h5>
+                <h5 className="text-sm font-medium">
+                  {user.displayName || "null"}
+                </h5>
                 <FaChevronDown className="text-xs" />
               </label>
 
@@ -64,12 +79,12 @@ const Navbar = () => {
                 tabIndex={0}
                 className="mt-3 z-[1] p-3 shadow menu menu-sm dropdown-content bg-slate-900 text-white rounded-box w-64"
               >
-                <p className="mb-2 border-b border-gray-700 pb-2">
+                <div className="mb-2 border-b border-gray-700 pb-2">
                   <div className="font-semibold">
                     {user.displayName || "Anonymous"}
                   </div>
                   <div className="text-sm text-gray-400">{user.email}</div>
-                </p>
+                </div>
                 <li className="hover:text-blue-500">
                   <Link to="/dashboard">Dashboard</Link>
                 </li>

@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../../../hooks/useAuth";
+import { auth } from "../../../../firebase.init";
+import Swal from "sweetalert2";
 
 const cloudName = import.meta.env.VITE_CLOUD_NAME;
 const uploadPreset = import.meta.env.VITE_CLOUD_UPLOAD_PRESET;
@@ -19,6 +21,9 @@ const Register = () => {
   } = useForm();
 
   const { createUser, googleLogin, updateUserProfile } = useAuth();
+
+  const location = useLocation();
+  const from = location.state?.from;
   const navigate = useNavigate();
 
   const uploadImageToCloudinary = async (file) => {
@@ -35,26 +40,54 @@ const Register = () => {
     try {
       const imageUrl = await uploadImageToCloudinary(file);
 
-      console.log(imageUrl);
-
       await createUser(data.email, data.password);
       await updateUserProfile(data.name, imageUrl);
 
-      toast.success("Account created successfully!");
-      navigate("/");
+      const user = auth.currentUser;
+      const firebaseToken = await user.getIdToken();
+
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        { firebaseToken },
+        { withCredentials: true }
+      );
+
+      Swal.fire({
+        icon: "success",
+        title: "Welcome to ThinkHub!",
+        text: "Your account was created successfully 🎉",
+        confirmButtonText: "Continue",
+        confirmButtonColor: "#2563EB",
+      }).then(() => {
+        navigate(from || "/");
+      });
+
+      //reset form
       reset();
     } catch (err) {
       console.error("Registration error:", err);
       toast.error(err.message || "Registration failed. Please try again.");
     }
   };
+
   const handleGoogleLogin = async () => {
     try {
-      await googleLogin();
-      navigate("/");
+      const res = await googleLogin();
+      const user = res.user;
+
+      const firebaseToken = await user.getIdToken();
+
+      //Send Firebase token to backend to get JWT cookie
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        { firebaseToken },
+        { withCredentials: true }
+      );
+
+      navigate(from || "/");
     } catch (err) {
       console.error("Google login error:", err);
-      toast.error(err.message || "Google login failed.");
+      toast.error(err.message || "Google login failed. Please try again.");
     }
   };
 
