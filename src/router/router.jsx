@@ -16,6 +16,10 @@ const router = createBrowserRouter([
         Component: Home,
       },
       {
+        path: "/posts/search",
+        Component: Home,
+      },
+      {
         path: "join-us",
         Component: JoinUs,
       },
@@ -33,9 +37,7 @@ const router = createBrowserRouter([
         <DashboardLayout />
       </PrivateRoute>
     ),
-    children:[
-        
-    ]
+    children: [],
   },
 ]);
 

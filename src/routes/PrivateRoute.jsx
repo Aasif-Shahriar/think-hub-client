@@ -1,11 +1,12 @@
 import { Navigate, useLocation } from "react-router";
 import { useAuth } from "../hooks/useAuth";
+import LoadingBar from "../components/loding/LoadingBar";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
 
-  if (loading) return <span className="loading loading-spinner" />;
+  if (loading) return <LoadingBar />;
 
   return user ? (
     children

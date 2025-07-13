@@ -5,12 +5,18 @@ import router from "./router/router";
 import { RouterProvider } from "react-router";
 import AuthProvider from "./context/AuthProvider";
 import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import 'swiper/css';
+
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
         <Toaster position="top-center" />
-      <RouterProvider router={router} />
-    </AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
   </StrictMode>
 );

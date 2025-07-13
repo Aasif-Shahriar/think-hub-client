@@ -3,6 +3,7 @@ import { FaBell, FaChevronDown } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
+import NotificationBell from "../../pages/home-page/announcements/NotificationBell";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -50,12 +51,7 @@ const Navbar = () => {
         {/* End - Notification + Profile */}
         <div className="navbar-end gap-4">
           {/* Notification Icon with Badge */}
-          <div className="relative">
-            <FaBell className="text-xl cursor-pointer hover:text-blue-500" />
-            <div className="badge badge-sm bg-blue-500 text-white absolute -top-2 -right-2">
-              3
-            </div>
-          </div>
+          <NotificationBell />
 
           {/* User Profile or Join Button */}
           {user ? (
