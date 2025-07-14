@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useState } from "react";
 
 export const AnnouncementCard = ({
@@ -5,6 +6,7 @@ export const AnnouncementCard = ({
   description,
   authorName,
   authorImage,
+  createdAt,
 }) => {
   const [expanded, setExpanded] = useState(false);
   const isLong = description.length > 180;
@@ -17,7 +19,12 @@ export const AnnouncementCard = ({
         className="w-12 h-12 rounded-full object-cover mt-1 bg-blue-100 hidden md:block"
       />
       <div className="flex-1">
-        <h4 className="font-semibold">{title}</h4>
+        <div className="flex items-center justify-between my-2">
+          <h4 className="font-semibold">{title}</h4>
+          <p className="text-sm font-semibold text-gray-400">
+            {moment(createdAt).fromNow()}
+          </p>
+        </div>
 
         <p
           className={`text-sm text-gray-400 ${

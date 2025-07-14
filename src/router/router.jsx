@@ -5,6 +5,7 @@ import JoinUs from "../pages/auth-page/login-page/JoinUs";
 import Register from "../pages/auth-page/register-page/Register";
 import PrivateRoute from "../routes/PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
+import PostDetails from "../pages/home-page/post-details-&-comment/PostDetails";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/posts/search",
         Component: Home,
+      },
+      {
+        path: "/posts/:id",
+        element: <PostDetails />,
       },
       {
         path: "join-us",

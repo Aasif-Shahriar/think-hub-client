@@ -12,38 +12,37 @@ const LoadingBar = () => {
   const [color, setColor] = useState("#0000ff");
 
   return (
-    <div className="sweet-loading" style={{ textAlign: "center", padding: "1rem" }}>
-      {loading ? (
-        <BarLoader
-          color={color}
-          loading={loading}
-          cssOverride={override}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      ) : (
-        <>
-          <button
-            type="button"
-            onClick={() => setLoading(!loading)}
-            style={{ marginBottom: "1rem" }}
-          >
-            Toggle Loader
-          </button>
+    <div
+      className="sweet-loading"
+      style={{ textAlign: "center", padding: "1rem" }}
+    >
+      <button
+        type="button"
+        onClick={() => setLoading(!loading)}
+        style={{ marginBottom: "1rem" }}
+      >
+        Toggle Loader
+      </button>
 
-          <div style={{ marginBottom: "1rem" }}>
-            <label>
-              Loader Color:&nbsp;
-              <input
-                type="text"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-                placeholder="Color of the loader"
-              />
-            </label>
-          </div>
-        </>
-      )}
+      <div style={{ marginBottom: "1rem" }}>
+        <label>
+          Loader Color:&nbsp;
+          <input
+            type="text"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            placeholder="Color of the loader"
+          />
+        </label>
+      </div>
+
+      <BarLoader
+        color={color}
+        loading={loading}
+        cssOverride={override}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
     </div>
   );
 };

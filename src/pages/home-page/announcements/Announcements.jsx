@@ -30,15 +30,18 @@ const Announcements = () => {
       </div>
 
       <ul className="space-y-4">
-        {data.map(({ _id, title, description, authorName, authorImage }) => (
-          <AnnouncementCard
-            key={_id}
-            title={title}
-            description={description}
-            authorName={authorName}
-            authorImage={authorImage}
-          />
-        ))}
+        {data.map(
+          ({ _id, title, description, authorName, authorImage, createdAt }) => (
+            <AnnouncementCard
+              key={_id}
+              title={title}
+              description={description}
+              authorName={authorName}
+              authorImage={authorImage}
+              createdAt={createdAt}
+            />
+          )
+        )}
       </ul>
     </section>
   );
