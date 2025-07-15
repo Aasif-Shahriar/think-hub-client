@@ -1,102 +1,138 @@
-import { useState } from "react";
-import { Link, NavLink, Outlet } from "react-router";
+import React, { useState } from "react";
+import { Outlet, NavLink } from "react-router";
 import {
-  FaBars,
-  FaTimes,
   FaUser,
   FaPlus,
-  FaClipboardList,
-  FaUserShield,
-  FaBullhorn,
-  FaComments,
+  FaList,
   FaUsers,
+  FaFlag,
+  FaBullhorn,
+  FaSignOutAlt,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
+import { FiUser } from "react-icons/fi";
+import { useAuth } from "../hooks/useAuth";
 
-const DashboardLayout = ({ isAdmin }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+const DashboardLayout = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const { user, role, logout } = useAuth(); // Replace with your auth logic
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-
-  const userLinks = [
-    { to: "/dashboard/profile", label: "My Profile", icon: <FaUser /> },
-    { to: "/dashboard/add-post", label: "Add Post", icon: <FaPlus /> },
-    { to: "/dashboard/my-posts", label: "My Posts", icon: <FaClipboardList /> },
-  ];
-
-  const adminLinks = [
-    {
-      to: "/dashboard/admin-profile",
-      label: "Admin Profile",
-      icon: <FaUserShield />,
-    },
-    { to: "/dashboard/manage-users", label: "Manage Users", icon: <FaUsers /> },
-    {
-      to: "/dashboard/reports",
-      label: "Reported Comments",
-      icon: <FaComments />,
-    },
-    {
-      to: "/dashboard/announcement",
-      label: "Make Announcement",
-      icon: <FaBullhorn />,
-    },
-  ];
-
-  const navLinks = isAdmin ? adminLinks : userLinks;
+  const navLinkClass = ({ isActive }) =>
+    `flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-200 ${
+      isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-slate-700"
+    }`;
 
   return (
-    <div className="flex min-h-screen bg-slate-900 text-gray-100">
+    <div className="min-h-screen flex bg-slate-900 text-white">
       {/* Sidebar */}
-      <aside
-        className={`bg-slate-800 w-64 space-y-4 px-4 py-6 fixed md:static z-50 transition-transform duration-300 ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        }`}
+      <div
+        className={`${
+          isSidebarOpen ? "block" : "hidden"
+        } md:block w-64 bg-slate-800 space-y-6 fixed md:relative z-20 h-screen overflow-y-auto`}
       >
-        <div className="flex items-center justify-between mb-6 md:mb-10">
-          <Link to="/" className="text-xl font-bold text-blue-400">
-            DevTalk 🧠
-          </Link>
-          <button onClick={toggleSidebar} className="md:hidden text-gray-300">
+        {/* Close Button for mobile */}
+        <div className="md:hidden flex justify-end p-4">
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="text-gray-400 hover:text-white text-xl"
+          >
             <FaTimes />
           </button>
         </div>
 
-        <nav className="space-y-2">
-          {navLinks.map(({ to, label, icon }) => (
-            <NavLink
-              key={to}
-              to={to}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-2 rounded-lg font-medium transition hover:bg-blue-600 hover:text-white ${
-                  isActive ? "bg-blue-700 text-white" : "text-gray-300"
-                }`
-              }
-            >
-              {icon}
-              {label}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="absolute bottom-6 left-4 text-sm text-gray-400">
-          <button className="hover:text-red-400">Logout</button>
+        {/* Section 1: Logo */}
+        <div className="space-y-1 p-4">
+          <h1 className="text-2xl font-bold">ThinkHub</h1>
+          <p className="text-sm text-gray-400">Developer Forum</p>
         </div>
-      </aside>
+
+        <hr className="border-gray-600 my-4" />
+
+        {/* Section 2: User Info */}
+        <div className="flex items-center gap-2 px-4">
+          <img
+            src={user?.photoURL || "https://i.ibb.co/tMzM9sm/user.png"}
+            alt="user"
+            className="w-12 h-12 object-cover rounded-full bg-white"
+          />
+          <div>
+            <p className="font-medium">{user?.displayName || "User Name"}</p>
+            <span className="text-sm text-gray-400 capitalize">
+              {role || "undefine"}
+            </span>
+          </div>
+        </div>
+
+        <hr className="border-gray-600 my-4" />
+
+        {/* Section 3: Navigation */}
+        <div>
+          <p className="text-xs text-gray-400 mb-2 font-semibold px-4 uppercase tracking-wide">
+            {role === "admin" ? "Admin Dashboard" : "User Dashboard"}
+          </p>
+
+          <div className="space-y-2">
+            {role === "user" ? (
+              <>
+                <NavLink to="/dashboard/profile" className={navLinkClass}>
+                  <FaUser /> My Profile
+                </NavLink>
+                <NavLink to="/dashboard/add-post" className={navLinkClass}>
+                  <FaPlus /> Add Post
+                </NavLink>
+                <NavLink to="/dashboard/my-posts" className={navLinkClass}>
+                  <FaList /> My Posts
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink to="/dashboard/admin-profile" className={navLinkClass}>
+                  <FiUser /> Admin Profile
+                </NavLink>
+                <NavLink to="/dashboard/manage-users" className={navLinkClass}>
+                  <FaUsers /> Manage Users
+                </NavLink>
+                <NavLink
+                  to="/dashboard/reported-comments"
+                  className={navLinkClass}
+                >
+                  <FaFlag /> Reported Comments
+                </NavLink>
+                <NavLink to="/dashboard/announcement" className={navLinkClass}>
+                  <FaBullhorn /> Make Announcement
+                </NavLink>
+              </>
+            )}
+          </div>
+        </div>
+
+        <hr className="border-gray-600 my-4" />
+
+        {/* Section 4: Logout */}
+        <div className="px-2 pb-4">
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-2 text-red-600 hover:bg-red-500/10 px-3 cursor-pointer py-2 rounded-lg transition-colors duration-200"
+          >
+            <FaSignOutAlt /> Logout
+          </button>
+        </div>
+      </div>
 
       {/* Main Content */}
-      <div className="flex-1 md:ml-64 p-4 md:p-8 w-full">
-        {/* Topbar on mobile */}
-        <div className="flex items-center justify-between md:hidden mb-4">
-          <h2 className="text-lg font-semibold">Dashboard</h2>
-          <button onClick={toggleSidebar} className="text-gray-300">
+      <div className="flex-1 ml-0 md:ml-64 p-4">
+        {/* Mobile menu toggle */}
+        <div className="md:hidden mb-4">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="text-gray-300 text-2xl"
+          >
             <FaBars />
           </button>
         </div>
 
-        {/* Page Content */}
-        <div className="bg-slate-800 rounded-2xl p-6 min-h-[80vh] shadow-lg">
-          <Outlet />
-        </div>
+        <Outlet />
       </div>
     </div>
   );

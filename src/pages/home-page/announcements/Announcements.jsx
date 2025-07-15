@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { FaBell } from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { AnnouncementCard } from "./AnnouncementCard";
 
@@ -24,9 +23,12 @@ const Announcements = () => {
       id="announcement"
       className="max-w-[1440px] mx-auto px-4 py-6 bg-slate-900 text-white rounded-md shadow-md my-6"
     >
-      <div className="flex items-center gap-2 mb-4">
-        <FaBell className="text-yellow-400 text-xl" />
-        <h3 className="text-lg font-semibold">Announcements ({data.length})</h3>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold">📢 Announcements</h3>
+
+        <p className="bg-blue-500 px-2 py-1 rounded-full text-xs font-medium">
+          {data.length} new
+        </p>
       </div>
 
       <ul className="space-y-4">

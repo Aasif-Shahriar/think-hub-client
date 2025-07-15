@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../../../hooks/useAuth";
 import { auth } from "../../../../firebase.init";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import SocialLogin from "../social-login/SocialLogin";
 
 const cloudName = import.meta.env.VITE_CLOUD_NAME;
 const uploadPreset = import.meta.env.VITE_CLOUD_UPLOAD_PRESET;
@@ -20,7 +21,8 @@ const Register = () => {
     reset,
   } = useForm();
 
-  const { createUser, googleLogin, updateUserProfile } = useAuth();
+  const { createUser, updateUserProfile } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const location = useLocation();
   const from = location.state?.from;
@@ -38,20 +40,34 @@ const Register = () => {
   const onSubmit = async (data) => {
     const file = data.photo[0];
     try {
+      // 1. Upload photo
       const imageUrl = await uploadImageToCloudinary(file);
 
+      // 2. Create Firebase user
       await createUser(data.email, data.password);
+
+      // 3. Update Firebase profile
       await updateUserProfile(data.name, imageUrl);
 
+      // 4. Get Firebase token
       const user = auth.currentUser;
       const firebaseToken = await user.getIdToken();
 
+      // 5. Send token to backend to get JWT
       await axios.post(
         `${import.meta.env.VITE_API_URL}/jwt`,
         { firebaseToken },
         { withCredentials: true }
       );
 
+      //  6. Save user to database
+      await axiosSecure.post("/users", {
+        name: data.name,
+        email: data.email,
+        photoURL: imageUrl,
+      });
+
+      // 7. Success alert
       Swal.fire({
         icon: "success",
         title: "Welcome to ThinkHub!",
@@ -62,7 +78,7 @@ const Register = () => {
         navigate(from || "/");
       });
 
-      //reset form
+      // 8. Reset form
       reset();
     } catch (err) {
       console.error("Registration error:", err);
@@ -70,26 +86,7 @@ const Register = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      const res = await googleLogin();
-      const user = res.user;
-
-      const firebaseToken = await user.getIdToken();
-
-      //Send Firebase token to backend to get JWT cookie
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/jwt`,
-        { firebaseToken },
-        { withCredentials: true }
-      );
-
-      navigate(from || "/");
-    } catch (err) {
-      console.error("Google login error:", err);
-      toast.error(err.message || "Google login failed. Please try again.");
-    }
-  };
+ 
 
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
@@ -202,13 +199,7 @@ const Register = () => {
               </p>
             </div>
 
-            <div className="divider">OR</div>
-            <button
-              onClick={handleGoogleLogin}
-              className="btn w-full border border-gray-300 text-black flex items-center justify-center gap-2"
-            >
-              <FcGoogle className="text-xl" /> Continue with Google
-            </button>
+            <SocialLogin />
           </div>
         </div>
       </div>

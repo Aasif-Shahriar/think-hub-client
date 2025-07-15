@@ -29,11 +29,11 @@ const AuthProvider = ({ children }) => {
   const logout = () => signOut(auth);
 
   const updateUserProfile = (name, photoURL) => {
-  return updateProfile(auth.currentUser, {
-    displayName: name,
-    photoURL: photoURL,
-  });
-};
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photoURL,
+    });
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -43,7 +43,15 @@ const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const value = { user, loading, createUser, signIn, googleLogin, logout,updateUserProfile };
+  const value = {
+    user,
+    loading,
+    createUser,
+    signIn,
+    googleLogin,
+    logout,
+    updateUserProfile,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

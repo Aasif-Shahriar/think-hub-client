@@ -4,6 +4,8 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../../../hooks/useAuth";
 import axios from "axios";
+import SocialLogin from "../social-login/SocialLogin";
+import Swal from "sweetalert2";
 
 const JoinUs = () => {
   const {
@@ -12,7 +14,7 @@ const JoinUs = () => {
     formState: { errors },
   } = useForm();
 
-  const { signIn, googleLogin } = useAuth();
+  const { signIn } = useAuth();
 
   const location = useLocation();
   const from = location.state?.from;
@@ -32,31 +34,18 @@ const JoinUs = () => {
         { withCredentials: true }
       );
 
-      navigate(from || "/");
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful!",
+        text: "Welcome back to ThinkHub 👋",
+        confirmButtonText: "Continue",
+        confirmButtonColor: "#2563EB",
+      }).then(() => {
+        navigate(from || "/");
+      });
     } catch (err) {
       console.error("Login error:", err);
       toast.error(err.message || "Login failed. Please try again.");
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    try {
-      const res = await googleLogin();
-      const user = res.user;
-
-      const firebaseToken = await user.getIdToken();
-
-      //Send Firebase token to backend to get JWT cookie
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/jwt`,
-        { firebaseToken },
-        { withCredentials: true }
-      );
-
-      navigate(from || "/");
-    } catch (err) {
-      console.error("Google login error:", err);
-      toast.error(err.message || "Google login failed. Please try again.");
     }
   };
 
@@ -130,13 +119,7 @@ const JoinUs = () => {
               </p>
             </div>
 
-            <div className="divider">OR</div>
-            <button
-              onClick={handleGoogleLogin}
-              className="btn w-full border border-gray-300 text-black flex items-center justify-center gap-2"
-            >
-              <FcGoogle className="text-xl" /> Continue with Google
-            </button>
+            <SocialLogin />
           </div>
         </div>
       </div>
