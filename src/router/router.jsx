@@ -6,6 +6,8 @@ import Register from "../pages/auth-page/register-page/Register";
 import PrivateRoute from "../routes/PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PostDetails from "../pages/home-page/post-details-&-comment/PostDetails";
+import MyProfile from "../pages/dashboard/my-profile/MyProfile";
+import AddPost from "../pages/dashboard/add-post/AddPost";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +44,16 @@ const router = createBrowserRouter([
         <DashboardLayout />
       </PrivateRoute>
     ),
-    children: [],
+    children: [
+      {
+        path: "/dashboard/profile",
+        element: <MyProfile />,
+      },
+      {
+        path: "/dashboard/add-post",
+        element: <AddPost />,
+      },
+    ],
   },
 ]);
 

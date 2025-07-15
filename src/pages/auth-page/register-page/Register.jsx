@@ -86,8 +86,6 @@ const Register = () => {
     }
   };
 
- 
-
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
       <div className="max-w-6xl w-full bg-white rounded-lg shadow-md grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
