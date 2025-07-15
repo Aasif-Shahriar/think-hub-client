@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import {
   FaThumbsUp,
@@ -9,6 +9,9 @@ import {
 import { FacebookShareButton, WhatsappShareButton } from "react-share";
 import { FaFacebook, FaWhatsapp, FaCopy } from "react-icons/fa6";
 import { toast } from "react-hot-toast";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useAuth } from "../../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 
 const PostInfo = ({ post }) => {
   const {
@@ -20,8 +23,73 @@ const PostInfo = ({ post }) => {
     tags,
     upVote = 0,
     downVote = 0,
+    upVoters = [],
+    downVoters = [],
     createdAt,
   } = post;
+
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  // const [hasVoted, setHasVoted] = useState(false);
+  const [voteCount, setVoteCount] = useState({ up: upVote, down: downVote });
+  const [userVote, setUserVote] = useState(null);
+
+  useEffect(() => {
+    if (!user) return;
+    const email = user?.email;
+    if (upVoters.includes(email)) setUserVote("up");
+    else if (downVoters.includes(email)) setUserVote("down");
+    else setUserVote(null);
+  }, [user, upVoters, downVoters]);
+
+  const handleVote = async (type) => {
+    if (!user) return toast.error("Login required to vote");
+
+    try {
+      await axiosSecure.patch(`/posts/${_id}/vote`, {
+        voteType: type,
+      });
+
+      if (userVote === type) {
+        // Undo vote
+        toast.success(`${type === "up" ? "Upvote" : "Downvote"} removed`);
+        setUserVote(null);
+        setVoteCount((prev) => ({
+          up: type === "up" ? prev.up - 1 : prev.up,
+          down: type === "down" ? prev.down - 1 : prev.down,
+        }));
+      } else if (userVote === null) {
+        // First time vote
+        toast.success(`Voted ${type === "up" ? "👍" : "👎"}`);
+        setUserVote(type);
+        setVoteCount((prev) => ({
+          up: type === "up" ? prev.up + 1 : prev.up,
+          down: type === "down" ? prev.down + 1 : prev.down,
+        }));
+      } else {
+        // Switch vote
+        toast.success(
+          `Switched to ${type === "up" ? "👍 Upvote" : "👎 Downvote"}`
+        );
+        setUserVote(type);
+        setVoteCount((prev) => ({
+          up: type === "up" ? prev.up + 1 : prev.up - 1,
+          down: type === "down" ? prev.down + 1 : prev.down - 1,
+        }));
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Vote failed");
+    }
+  };
+
+  //total comments
+  const { data: comments = [], isLoading } = useQuery({
+    queryKey: ["comments", _id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/posts/${_id}/comments`);
+      return res.data;
+    },
+  });
 
   const postUrl = `${window.location.origin}/posts/${_id}`;
   const postTime = moment(createdAt).fromNow();
@@ -69,14 +137,32 @@ const PostInfo = ({ post }) => {
       {/* Reactions */}
       <div className="flex flex-wrap pt-3 items-center justify-between gap-2 text-sm">
         <div className="flex items-center gap-1">
-          <button className="flex items-center gap-1 cursor-pointer hover:bg-green-200 px-2 py-1 text-green-500 transition-colors duration-200 rounded-lg">
-            <FaThumbsUp /> <span>{upVote}</span>
+          {/* up vote button */}
+          <button
+            onClick={() => handleVote("up")}
+            className={`flex cursor-pointer items-center gap-1 px-2 py-1 rounded-lg transition-colors duration-200 ${
+              userVote === "up"
+                ? "bg-green-200 text-green-600"
+                : "hover:bg-green-200 text-green-500"
+            }`}
+          >
+            <FaThumbsUp /> <span>{voteCount.up}</span>
           </button>
-          <button className="flex items-center gap-1 cursor-pointer hover:bg-red-200 px-2 py-1 text-red-500 transition-colors duration-200 rounded-lg">
-            <FaThumbsDown /> <span>{downVote}</span>
+
+          {/* down vote button */}
+          <button
+            onClick={() => handleVote("down")}
+            className={`flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-colors duration-200 ${
+              userVote === "down"
+                ? "bg-red-200 text-red-600"
+                : "hover:bg-red-200 text-red-500"
+            }`}
+          >
+            <FaThumbsDown /> <span>{voteCount.down}</span>
           </button>
+
           <div className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg">
-            <FaCommentAlt /> <span>Comments</span>
+            <FaCommentAlt /> <span>{isLoading ? "..." : comments.length}</span>
           </div>
         </div>
 

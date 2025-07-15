@@ -3,7 +3,7 @@ import { TiMessages } from "react-icons/ti";
 import moment from "moment";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import {  } from "react-icons/fa";
+import {} from "react-icons/fa";
 import { RxThickArrowDown, RxThickArrowUp } from "react-icons/rx";
 
 const DiscussionCard = ({ post }) => {
@@ -20,15 +20,16 @@ const DiscussionCard = ({ post }) => {
 
   const axiosSecure = useAxiosSecure();
 
-  const { data: commentData = {}, isLoading: loadingComments } = useQuery({
-    queryKey: ["comment-count", _id],
+  //total comments
+  const { data: comments = [], isLoading } = useQuery({
+    queryKey: ["comments", _id],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/comments/count/${_id}`);
+      const res = await axiosSecure.get(`/posts/${_id}/comments`);
       return res.data;
     },
   });
 
-  const commentCount = commentData.count || 0;
+
 
   return (
     <div className="rounded-xl bg-slate-800 text-white p-5 shadow-md hover:shadow-lg transition-shadow duration-200">
@@ -69,16 +70,24 @@ const DiscussionCard = ({ post }) => {
       <div className="flex justify-between text-sm text-gray-300 items-center">
         <div className="flex gap-4">
           <span className="flex items-center gap-1 cursor-pointer text-green-500 ">
-            <RxThickArrowUp size={20} className="hover:text-green-800 transition-colors duration-200" /> {upVote}
+            <RxThickArrowUp
+              size={20}
+              className="hover:text-green-800 transition-colors duration-200"
+            />{" "}
+            {upVote}
           </span>
           <span className="flex items-center gap-1 cursor-pointer text-red-500">
-            <RxThickArrowDown size={20} className="hover:text-red-800 transition-colors duration-200" /> {downVote}
+            <RxThickArrowDown
+              size={20}
+              className="hover:text-red-800 transition-colors duration-200"
+            />{" "}
+            {downVote}
           </span>
           <span>Score: {upVote - downVote}</span>
         </div>
         <div className="flex items-center gap-1">
           <TiMessages size={16} />
-          <span>{loadingComments ? "..." : commentCount}</span>
+          <span>{isLoading ? "..." : comments.length}</span>
         </div>
       </div>
     </div>
