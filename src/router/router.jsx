@@ -10,6 +10,7 @@ import MyProfile from "../pages/dashboard/my-profile/MyProfile";
 import AddPost from "../pages/dashboard/add-post/AddPost";
 import MyPosts from "../pages/dashboard/my-posts/MyPosts";
 import CommentManagement from "../pages/dashboard/comments-management/CommentManagement.";
+import AdminProfile from "../pages/dashboard/admin/admin-profile/AdminProfile";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,12 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/comments/:postId",
         element: <CommentManagement />,
+      },
+
+      // admin route
+      {
+        path: "/dashboard/admin-profile",
+        element: <AdminProfile />,
       },
     ],
   },

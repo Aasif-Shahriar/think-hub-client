@@ -27,9 +27,9 @@ const PopularTags = ({ setSearchTag }) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["tags"],
+    queryKey: ["popularTags"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/tags");
+      const res = await axiosSecure.get("/tags/popular");
       return res.data;
     },
   });

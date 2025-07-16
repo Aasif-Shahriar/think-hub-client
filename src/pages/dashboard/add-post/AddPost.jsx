@@ -9,15 +9,6 @@ import LoadingBar from "../../../components/loding/LoadingBar";
 import { FaPaperPlane } from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const tagOptions = [
-  { value: "javascript", label: "JavaScript" },
-  { value: "react", label: "React" },
-  { value: "mongodb", label: "MongoDB" },
-  { value: "node", label: "Node.js" },
-  { value: "firebase", label: "Firebase" },
-  { value: "css", label: "CSS" },
-];
-
 const customSelectStyles = {
   control: (base) => ({
     ...base,
@@ -71,6 +62,19 @@ const AddPost = () => {
       return res.data.total;
     },
   });
+
+  const { data: fetchedTags = [], isLoading: tagsLoading } = useQuery({
+    queryKey: ["tags"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/tags");
+      return res.data.map((tag) => ({
+        value: tag.name.toLowerCase(),
+        label: tag.name,
+      }));
+    },
+  });
+
+  console.log(fetchedTags);
 
   const onSubmit = async (data) => {
     const newPost = {
@@ -196,7 +200,7 @@ const AddPost = () => {
               render={({ field }) => (
                 <Select
                   {...field}
-                  options={tagOptions}
+                  options={fetchedTags}
                   isMulti
                   styles={customSelectStyles}
                   placeholder="Select tags..."
