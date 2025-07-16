@@ -17,11 +17,11 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log('user',user);
-
   // Auth functions
-  const createUser = (email, password) =>
-    createUserWithEmailAndPassword(auth, email, password);
+  const createUser = (email, password) => {
+    setLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
 
   const signIn = (email, password) =>
     signInWithEmailAndPassword(auth, email, password);
@@ -53,6 +53,7 @@ const AuthProvider = ({ children }) => {
     googleLogin,
     logout,
     updateUserProfile,
+    setLoading
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -21,7 +21,7 @@ const Register = () => {
     reset,
   } = useForm();
 
-  const { createUser, updateUserProfile } = useAuth();
+  const { createUser, updateUserProfile, setLoading, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const location = useLocation();
@@ -76,6 +76,7 @@ const Register = () => {
         confirmButtonColor: "#2563EB",
       }).then(() => {
         navigate(from || "/");
+        setLoading(false);
       });
 
       // 8. Reset form
@@ -185,7 +186,7 @@ const Register = () => {
                   </p>
                 )}
               </div>
-              <button className="btn btn-primary w-full">Register</button>
+              <button className="btn btn-primary w-full">{loading?"Registering...":"Register"}</button>
             </form>
 
             <div className="text-center mt-4">
