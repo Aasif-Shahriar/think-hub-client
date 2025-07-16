@@ -124,7 +124,7 @@ const AddPost = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
+    <div className="max-w-2xl mx-auto py-8">
       <div className=" space-y-1 mb-6">
         <h1 className="text-3xl font-bold text-white">Create a New Post</h1>
         <p className="text-gray-400">

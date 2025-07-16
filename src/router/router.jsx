@@ -8,6 +8,8 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import PostDetails from "../pages/home-page/post-details-&-comment/PostDetails";
 import MyProfile from "../pages/dashboard/my-profile/MyProfile";
 import AddPost from "../pages/dashboard/add-post/AddPost";
+import MyPosts from "../pages/dashboard/my-posts/MyPosts";
+import CommentManagement from "../pages/dashboard/comments-management/CommentManagement.";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +54,14 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/add-post",
         element: <AddPost />,
+      },
+      {
+        path: "/dashboard/my-posts",
+        element: <MyPosts />,
+      },
+      {
+        path: "/dashboard/comments/:postId",
+        element: <CommentManagement />,
       },
     ],
   },

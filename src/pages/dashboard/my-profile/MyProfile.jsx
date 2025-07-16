@@ -167,7 +167,7 @@ const MyProfile = () => {
                   {post.tags?.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs font-semibold text-green-500 bg-green-500/10 px-2 py-0.5 rounded"
+                      className="text-xs capitalize font-semibold text-green-500 bg-green-500/10 px-2 py-0.5 rounded"
                     >
                       {tag}
                     </span>
