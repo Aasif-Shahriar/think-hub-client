@@ -13,6 +13,7 @@ import CommentManagement from "../pages/dashboard/comments-management/CommentMan
 import AdminProfile from "../pages/dashboard/admin/admin-profile/AdminProfile";
 import ManageUsers from "../pages/dashboard/admin/manage-users/ManageUsers";
 import ReportedComments from "../pages/dashboard/admin/reported-comments/ReportedComments";
+import MakeAnnouncement from "../pages/dashboard/admin/make-announcemments/MakeAnnouncement";
 
 const router = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/reported-comments",
         element: <ReportedComments />,
+      },
+      {
+        path: "/dashboard/announcement",
+        element: <MakeAnnouncement />,
       },
     ],
   },
