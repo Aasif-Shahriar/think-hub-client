@@ -53,8 +53,18 @@ const AddPost = () => {
     formState: { errors },
   } = useForm();
 
-  // Get post count
-  const { data: postCount = 0, isLoading } = useQuery({
+  // ✅ Get user details including membership
+  const { data: userData, isLoading: userLoading } = useQuery({
+    queryKey: ["userData", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user.email}`);
+      return res.data;
+    },
+  });
+
+  // ✅ Get post count
+  const { data: postCount = 0, isLoading: countLoading } = useQuery({
     queryKey: ["userPostCount", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -63,6 +73,7 @@ const AddPost = () => {
     },
   });
 
+  // ✅ Get tags
   const { data: fetchedTags = [], isLoading: tagsLoading } = useQuery({
     queryKey: ["tags"],
     queryFn: async () => {
@@ -73,8 +84,6 @@ const AddPost = () => {
       }));
     },
   });
-
-  console.log(fetchedTags);
 
   const onSubmit = async (data) => {
     const newPost = {
@@ -105,10 +114,11 @@ const AddPost = () => {
     }
   };
 
-  if (isLoading) return <LoadingBar />;
+  // ✅ Wait for data
+  if (userLoading || countLoading || tagsLoading) return <LoadingBar />;
 
-  // Post limit check
-  if (postCount >= 5) {
+  // ✅ Handle Bronze post limit
+  if (userData?.membership === "bronze" && postCount >= 5) {
     return (
       <div className="text-center mt-10 space-y-4">
         <h2 className="text-xl font-semibold text-red-500">
@@ -117,7 +127,6 @@ const AddPost = () => {
         <p className="text-gray-400">
           Upgrade your membership to create more posts.
         </p>
-        {/* use react-router link */}
         <a href="/membership">
           <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-5 py-2 rounded">
             Become a Member
@@ -127,9 +136,10 @@ const AddPost = () => {
     );
   }
 
+  // ✅ Main form
   return (
     <div className="max-w-2xl mx-auto py-8">
-      <div className=" space-y-1 mb-6">
+      <div className="space-y-1 mb-6">
         <h1 className="text-3xl font-bold text-white">Create a New Post</h1>
         <p className="text-gray-400">
           Share your knowledge with the ThinkHub community
@@ -137,7 +147,6 @@ const AddPost = () => {
       </div>
 
       <div className="bg-slate-800 rounded-xl p-6 space-y-6 shadow-md">
-        {/* User Info Card */}
         <div className="bg-slate-700 p-4 rounded-lg flex items-center gap-4">
           <img
             src={user?.photoURL}
@@ -152,9 +161,7 @@ const AddPost = () => {
           </div>
         </div>
 
-        {/* Form Starts */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Title */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               Post Title
@@ -170,7 +177,6 @@ const AddPost = () => {
             )}
           </div>
 
-          {/* Description */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               Description
@@ -188,7 +194,6 @@ const AddPost = () => {
             )}
           </div>
 
-          {/* Tags */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">
               Tags
@@ -215,7 +220,6 @@ const AddPost = () => {
             <p className="text-xs text-gray-400 mt-1">Select up to 5 tags</p>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition cursor-pointer"

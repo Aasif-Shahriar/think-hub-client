@@ -14,6 +14,7 @@ import AdminProfile from "../pages/dashboard/admin/admin-profile/AdminProfile";
 import ManageUsers from "../pages/dashboard/admin/manage-users/ManageUsers";
 import ReportedComments from "../pages/dashboard/admin/reported-comments/ReportedComments";
 import MakeAnnouncement from "../pages/dashboard/admin/make-announcemments/MakeAnnouncement";
+import MembershipPage from "../pages/membership/MembershipPage";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
       {
         path: "register",
         Component: Register,
+      },
+      {
+        path: "membership",
+        element: (
+          <PrivateRoute>
+            <MembershipPage />
+          </PrivateRoute>
+        ),
       },
     ],
   },
