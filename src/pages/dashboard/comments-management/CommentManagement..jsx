@@ -100,7 +100,7 @@ const CommentManagement = () => {
                       {shortText}
                       {isLong && (
                         <button
-                          className="ml-2 text-blue-400 hover:underline text-xs"
+                          className="ml-2 text-blue-400 hover:underline cursor-pointer text-xs"
                           onClick={() => setModalContent(comment.text)}
                         >
                           Read More
@@ -155,7 +155,7 @@ const CommentManagement = () => {
             <p className="text-gray-300 whitespace-pre-wrap">{modalContent}</p>
             <button
               onClick={() => setModalContent("")}
-              className="absolute top-2 right-2 text-white text-xl hover:text-red-500"
+              className="absolute top-2 right-2 cursor-pointer text-white text-xl hover:text-red-500"
             >
               ×
             </button>
