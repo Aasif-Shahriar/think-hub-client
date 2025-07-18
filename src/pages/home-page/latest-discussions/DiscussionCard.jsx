@@ -3,8 +3,10 @@ import { TiMessages } from "react-icons/ti";
 import moment from "moment";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import {} from "react-icons/fa";
-import { RxThickArrowDown, RxThickArrowUp } from "react-icons/rx";
+import { TbArrowBigUp, TbArrowBigUpFilled } from "react-icons/tb";
+import { useAuth } from "../../../hooks/useAuth";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const DiscussionCard = ({ post }) => {
   const {
@@ -16,9 +18,62 @@ const DiscussionCard = ({ post }) => {
     tags,
     upVote,
     downVote,
+    upVoters = [],
+    downVoters = [],
   } = post;
 
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const [voteCount, setVoteCount] = useState({ up: upVote, down: downVote });
+  const [userVote, setUserVote] = useState(null);
+
+  useEffect(() => {
+    if (!user) return;
+    const email = user?.email;
+    if (upVoters.includes(email)) setUserVote("up");
+    else if (downVoters.includes(email)) setUserVote("down");
+    else setUserVote(null);
+  }, [user, upVoters, downVoters]);
+
+  const handleVote = async (type) => {
+    if (!user) return toast.error("Login required to vote");
+
+    try {
+      await axiosSecure.patch(`/posts/${_id}/vote`, {
+        voteType: type,
+      });
+
+      if (userVote === type) {
+        // Undo vote
+        toast.success(`${type === "up" ? "Upvote" : "Downvote"} removed`);
+        setUserVote(null);
+        setVoteCount((prev) => ({
+          up: type === "up" ? prev.up - 1 : prev.up,
+          down: type === "down" ? prev.down - 1 : prev.down,
+        }));
+      } else if (userVote === null) {
+        // First time vote
+        toast.success(`Voted ${type === "up" ? "👍" : "👎"}`);
+        setUserVote(type);
+        setVoteCount((prev) => ({
+          up: type === "up" ? prev.up + 1 : prev.up,
+          down: type === "down" ? prev.down + 1 : prev.down,
+        }));
+      } else {
+        // Switch vote
+        toast.success(
+          `Switched to ${type === "up" ? "👍 Upvote" : "👎 Downvote"}`
+        );
+        setUserVote(type);
+        setVoteCount((prev) => ({
+          up: type === "up" ? prev.up + 1 : prev.up - 1,
+          down: type === "down" ? prev.down + 1 : prev.down - 1,
+        }));
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Vote failed");
+    }
+  };
 
   //total comments
   const { data: comments = [], isLoading } = useQuery({
@@ -28,8 +83,6 @@ const DiscussionCard = ({ post }) => {
       return res.data;
     },
   });
-
-
 
   return (
     <div className="rounded-xl bg-slate-800 text-white p-5 shadow-md hover:shadow-lg transition-shadow duration-200">
@@ -69,21 +122,37 @@ const DiscussionCard = ({ post }) => {
       {/* Votes & Comments */}
       <div className="flex justify-between text-sm text-gray-300 items-center">
         <div className="flex gap-4">
-          <span className="flex items-center gap-1 cursor-pointer text-green-500 ">
-            <RxThickArrowUp
-              size={20}
-              className="hover:text-green-800 transition-colors duration-200"
-            />{" "}
-            {upVote}
-          </span>
-          <span className="flex items-center gap-1 cursor-pointer text-red-500">
-            <RxThickArrowDown
-              size={20}
-              className="hover:text-red-800 transition-colors duration-200"
-            />{" "}
-            {downVote}
-          </span>
-          <span>Score: {upVote - downVote}</span>
+          <button
+            onClick={() => handleVote("up")}
+            className={`flex items-center gap-1 px-2 py-1 cursor-pointer rounded-lg transition-colors duration-200 ${
+              userVote === "up"
+                ? "text-green-600"
+                : "text-green-500 hover:text-green-600"
+            }`}
+          >
+            {userVote === "up" ? (
+              <TbArrowBigUpFilled size={20} />
+            ) : (
+              <TbArrowBigUp size={20} />
+            )}
+            <span>{voteCount.up}</span>
+          </button>
+
+          <button
+            onClick={() => handleVote("down")}
+            className={`flex items-center gap-1 px-2 py-1 cursor-pointer rounded-lg transition-colors duration-200 ${
+              userVote === "down"
+                ? "text-red-600"
+                : "text-red-500 hover:text-red-600"
+            }`}
+          >
+            {userVote === "down" ? (
+              <TbArrowBigUpFilled size={20} className="rotate-180" />
+            ) : (
+              <TbArrowBigUp size={20} className="rotate-180" />
+            )}
+            <span>{voteCount.down}</span>
+          </button>
         </div>
         <div className="flex items-center gap-1">
           <TiMessages size={16} />
