@@ -66,6 +66,8 @@ const MyPosts = () => {
 
   return (
     <div className="px-4 py-8">
+      <title>My Posts | ThinkHub</title>
+
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div>

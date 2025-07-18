@@ -233,6 +233,8 @@ const ManageUsers = () => {
           </Dialog.Panel>
         </div>
       </Dialog>
+      <title>Manage Users | ThinkHub</title>
+
     </div>
   );
 };

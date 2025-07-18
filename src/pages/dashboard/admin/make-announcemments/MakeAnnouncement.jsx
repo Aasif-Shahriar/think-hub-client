@@ -40,6 +40,8 @@ const MakeAnnouncement = () => {
 
   return (
     <div className="max-w-2xl mx-auto bg-slate-100 dark:bg-slate-800 p-6 rounded-xl shadow-md">
+      <title>Make Announcements | ThinkHub</title>
+
       <h2 className="text-2xl font-semibold mb-6 text-slate-800 dark:text-white text-center">
         📣 Post New Announcement
       </h2>

@@ -80,6 +80,8 @@ const ReportedComments = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4">
+      <title>Reports | ThinkHub</title>
+
       <h2 className="text-2xl font-bold mb-6">🚩 Reported Comments</h2>
 
       {reports.length === 0 ? (

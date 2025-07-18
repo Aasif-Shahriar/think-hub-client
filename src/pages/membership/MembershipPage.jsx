@@ -2,12 +2,17 @@ import { FaCrown, FaStar, FaTrophy, FaCheckCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useAuth } from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const MembershipPage = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const handlePayment = async () => {
+    if (user?.membership === "gold") {
+      return Swal.fire("Info", "You're already a Gold Member 🥇", "info");
+    }
+
     const result = await Swal.fire({
       title: "Confirm Payment?",
       text: "Pay $10 USD to become a Gold Member",
@@ -37,6 +42,10 @@ const MembershipPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
+      <Helmet>
+        {" "}
+        <title>Membership | ThinkHub</title>
+      </Helmet>
       <div className="text-center mb-8">
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white">
           Become a{" "}
@@ -85,9 +94,18 @@ const MembershipPage = () => {
 
           <button
             onClick={handlePayment}
-            className="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-xl transition cursor-pointer"
+            disabled={user?.membership === "gold"}
+            className={`mt-6 w-full font-bold py-2 px-4 rounded-xl transition cursor-pointer
+    ${
+      user?.membership === "gold"
+        ? "bg-gray-500 cursor-not-allowed"
+        : "bg-blue-500 hover:bg-blue-600 text-white"
+    }
+  `}
           >
-            Make Payment - $10
+            {user?.membership === "gold"
+              ? "You're Already a Gold Member 🥇"
+              : "Make Payment - $10"}
           </button>
         </div>
 

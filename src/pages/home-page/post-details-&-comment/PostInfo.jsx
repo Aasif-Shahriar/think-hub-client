@@ -100,131 +100,136 @@ const PostInfo = ({ post }) => {
   };
 
   return (
-    <div className="bg-slate-800 rounded-xl p-6 max-w-3xl mx-auto text-white space-y-4 shadow-md">
-      {/* Author and Time */}
-      <div className="flex items-center gap-4">
-        <img
-          src={authorImage}
-          alt={authorName}
-          className="w-10 h-10 rounded-full border-2 border-white"
-        />
-        <div>
-          <h3 className="font-semibold">{authorName}</h3>
-          <p className="text-sm text-gray-300">{postTime}</p>
-        </div>
-      </div>
-
-      {/* Title */}
-      <h1 className="text-2xl font-bold">{title}</h1>
-
-      {/* Tags */}
-      <div className="flex flex-wrap gap-2">
-        {tags?.map((tag, index) => (
-          <span
-            key={index}
-            className="bg-blue-200 text-blue-800 font-medium px-3 py-1 rounded-full text-sm flex items-center gap-1"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      {/* Description */}
-      <p className="text-gray-200 leading-relaxed">{description}</p>
-
-      <hr className="border-gray-600" />
-
-      {/* Reactions */}
-      <div className="flex flex-wrap pt-3 items-center justify-between gap-2 text-sm">
-        <div className="flex items-center gap-1">
-          {/* up vote button */}
-          <button
-            onClick={() => handleVote("up")}
-            className={`flex cursor-pointer items-center gap-1 px-2 py-1 rounded-lg transition-colors duration-200 ${
-              userVote === "up"
-                ? "bg-green-200 text-green-600"
-                : "hover:bg-green-200 text-green-500"
-            }`}
-          >
-            <FaThumbsUp /> <span>{voteCount.up}</span>
-          </button>
-
-          {/* down vote button */}
-          <button
-            onClick={() => handleVote("down")}
-            className={`flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-colors duration-200 ${
-              userVote === "down"
-                ? "bg-red-200 text-red-600"
-                : "hover:bg-red-200 text-red-500"
-            }`}
-          >
-            <FaThumbsDown /> <span>{voteCount.down}</span>
-          </button>
-
-          <div className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg">
-            <FaCommentAlt /> <span>{isLoading ? "..." : comments.length}</span>
+    <>
+      <div className="bg-slate-800 rounded-xl p-6 max-w-3xl mx-auto text-white space-y-4 shadow-md">
+        {/* Author and Time */}
+        <div className="flex items-center gap-4">
+          <img
+            src={authorImage}
+            alt={authorName}
+            className="w-10 h-10 rounded-full border-2 border-white"
+          />
+          <div>
+            <h3 className="font-semibold">{authorName}</h3>
+            <p className="text-sm text-gray-300">{postTime}</p>
           </div>
         </div>
 
-        {/* Share Icon - triggers modal */}
-        <label
-          htmlFor="share_modal"
-          className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg"
-        >
-          <FaShareAlt />
-          <span>Share</span>
-        </label>
-      </div>
+        {/* Title */}
+        <h1 className="text-2xl font-bold">{title}</h1>
 
-      {/* Share Modal */}
-      <input type="checkbox" id="share_modal" className="modal-toggle" />
-      <div className="modal sm:modal-middle text-black">
-        <div className="modal-box bg-white p-6 rounded-md w-80">
-          {/* Header */}
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="font-semibold text-lg text-slate-800">Share Post</h3>
-            <label
-              htmlFor="share_modal"
-              className="cursor-pointer text-xl font-bold"
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2">
+          {tags?.map((tag, index) => (
+            <span
+              key={index}
+              className="bg-blue-200 text-blue-800 font-medium px-3 py-1 rounded-full text-sm flex items-center gap-1"
             >
-              ✕
-            </label>
-          </div>
+              {tag}
+            </span>
+          ))}
+        </div>
 
-          <div className="p-2">
-            <FacebookShareButton
-              url={postUrl}
-              className="flex items-center gap-3 w-full p-2 hover:bg-blue-50 rounded-md mb-4"
-            >
-              <FaFacebook className="text-blue-600 text-xl" />
-              <span className="text-base font-medium text-slate-700">
-                Share on Facebook
-              </span>
-            </FacebookShareButton>
+        {/* Description */}
+        <p className="text-gray-200 leading-relaxed">{description}</p>
 
-            <WhatsappShareButton
-              url={postUrl}
-              className="flex items-center gap-3 w-full p-2 hover:bg-green-50 rounded-md mb-2"
-            >
-              <FaWhatsapp className="text-green-500 text-xl" />
-              <span className="text-base font-medium text-slate-700">
-                Share on WhatsApp
-              </span>
-            </WhatsappShareButton>
+        <hr className="border-gray-600" />
 
+        {/* Reactions */}
+        <div className="flex flex-wrap pt-3 items-center justify-between gap-2 text-sm">
+          <div className="flex items-center gap-1">
+            {/* up vote button */}
             <button
-              onClick={handleCopyLink}
-              className="flex items-center gap-3 w-full p-2 hover:bg-gray-100 rounded-md"
+              onClick={() => handleVote("up")}
+              className={`flex cursor-pointer items-center gap-1 px-2 py-1 rounded-lg transition-colors duration-200 ${
+                userVote === "up"
+                  ? "bg-green-200 text-green-600"
+                  : "hover:bg-green-200 text-green-500"
+              }`}
             >
-              <FaCopy className="text-gray-600 text-xl" />
-              <span className="text-base font-medium text-slate-700">
-                Copy Link
-              </span>
+              <FaThumbsUp /> <span>{voteCount.up}</span>
             </button>
+
+            {/* down vote button */}
+            <button
+              onClick={() => handleVote("down")}
+              className={`flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-colors duration-200 ${
+                userVote === "down"
+                  ? "bg-red-200 text-red-600"
+                  : "hover:bg-red-200 text-red-500"
+              }`}
+            >
+              <FaThumbsDown /> <span>{voteCount.down}</span>
+            </button>
+
+            <div className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg">
+              <FaCommentAlt />{" "}
+              <span>{isLoading ? "..." : comments.length}</span>
+            </div>
+          </div>
+
+          {/* Share Icon - triggers modal */}
+          <label
+            htmlFor="share_modal"
+            className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg"
+          >
+            <FaShareAlt />
+            <span>Share</span>
+          </label>
+        </div>
+
+        {/* Share Modal */}
+        <input type="checkbox" id="share_modal" className="modal-toggle" />
+        <div className="modal sm:modal-middle text-black">
+          <div className="modal-box bg-white p-6 rounded-md w-80">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-semibold text-lg text-slate-800">
+                Share Post
+              </h3>
+              <label
+                htmlFor="share_modal"
+                className="cursor-pointer text-xl font-bold"
+              >
+                ✕
+              </label>
+            </div>
+
+            <div className="p-2">
+              <FacebookShareButton
+                url={postUrl}
+                className="flex items-center gap-3 w-full p-2 hover:bg-blue-50 rounded-md mb-4"
+              >
+                <FaFacebook className="text-blue-600 text-xl" />
+                <span className="text-base font-medium text-slate-700">
+                  Share on Facebook
+                </span>
+              </FacebookShareButton>
+
+              <WhatsappShareButton
+                url={postUrl}
+                className="flex items-center gap-3 w-full p-2 hover:bg-green-50 rounded-md mb-2"
+              >
+                <FaWhatsapp className="text-green-500 text-xl" />
+                <span className="text-base font-medium text-slate-700">
+                  Share on WhatsApp
+                </span>
+              </WhatsappShareButton>
+
+              <button
+                onClick={handleCopyLink}
+                className="flex items-center gap-3 w-full p-2 hover:bg-gray-100 rounded-md"
+              >
+                <FaCopy className="text-gray-600 text-xl" />
+                <span className="text-base font-medium text-slate-700">
+                  Copy Link
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

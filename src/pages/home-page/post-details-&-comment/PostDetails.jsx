@@ -32,10 +32,13 @@ const PostDetails = () => {
   }
 
   return (
-    <div className="bg-slate-900 min-h-[calc(100vh-64px)] text-white px-4 py-8">
-      <PostInfo post={post} />
-      <CommentsSection postId={id} />
-    </div>
+    <>
+      <div className="bg-slate-900 min-h-[calc(100vh-64px)] text-white px-4 py-8">
+        <PostInfo post={post} />
+        <CommentsSection postId={id} />
+        <title>Post Details | ThinkHub</title>
+      </div>
+    </>
   );
 };
 

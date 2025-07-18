@@ -77,6 +77,8 @@ const AdminProfile = () => {
 
   return (
     <div className="max-w-4xl mx-auto bg-slate-800 p-6 rounded-2xl shadow-md text-white">
+      <title>Admin Profile | ThinkHub</title>
+
       {/* admin profile */}
       <div className="flex items-center gap-6 mb-8">
         <img

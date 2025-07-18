@@ -17,6 +17,7 @@ const Home = () => {
       <Announcements />
       {/* latest discussion */}
       <LatestDiscussions searchTag={searchTag} />
+      <title>Home | ThinkHub</title>
     </div>
   );
 };

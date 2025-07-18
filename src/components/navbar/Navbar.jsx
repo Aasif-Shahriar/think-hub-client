@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { FaBell, FaChevronDown } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
@@ -40,12 +40,12 @@ const Navbar = () => {
 
         {/* Center - Navigation Links */}
         <div className="navbar-center hidden lg:flex gap-6">
-          <Link to="/" className="hover:text-blue-400">
+          <NavLink to="/" className="hover:text-blue-400">
             Home
-          </Link>
-          <Link to="/membership" className="hover:text-blue-400">
+          </NavLink>
+          <NavLink to="/membership" className="hover:text-blue-400">
             Membership
-          </Link>
+          </NavLink>
         </div>
 
         {/* End - Notification + Profile */}

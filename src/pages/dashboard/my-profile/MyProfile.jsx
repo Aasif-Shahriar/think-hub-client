@@ -68,6 +68,8 @@ const MyProfile = () => {
 
   return (
     <div className="space-y-6">
+      <title>My Profile | ThinkHub</title>
+
       {/* Top Section */}
       {loadingUser ? (
         <LoadingBar />

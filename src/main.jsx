@@ -6,17 +6,20 @@ import { RouterProvider } from "react-router";
 import AuthProvider from "./context/AuthProvider";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import 'swiper/css';
+import "swiper/css";
+import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Toaster position="top-center" />
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <HelmetProvider>
+        <AuthProvider>
+          <Toaster position="top-center" />
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </HelmetProvider>
     </QueryClientProvider>
   </StrictMode>
 );

@@ -229,6 +229,8 @@ const AddPost = () => {
           </button>
         </form>
       </div>
+      <title>Add Post | ThinkHub</title>
+
     </div>
   );
 };

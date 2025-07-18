@@ -202,6 +202,7 @@ const Register = () => {
           </div>
         </div>
       </div>
+      <title>Register | ThinkHub</title>
     </div>
   );
 };

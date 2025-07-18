@@ -51,6 +51,8 @@ const JoinUs = () => {
 
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
+      <title>Join Us | ThinkHub</title>
+
       <div className="max-w-6xl w-full bg-white rounded-lg shadow-md grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
         {/* Left Section - Static content */}
         <div className="bg-blue-600 text-white p-10 hidden lg:flex flex-col justify-center">
