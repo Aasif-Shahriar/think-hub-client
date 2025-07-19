@@ -1,3 +1,4 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { FaCheckCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useAuth } from "../../hooks/useAuth";
@@ -6,9 +7,35 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 const MembershipPage = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
+
+  const {
+    data: currentUserData,
+    isLoading,
+    error,
+  } = useQuery({
+    enabled: !!user?.email,
+    queryKey: ["user", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user.email}`);
+      return res.data;
+    },
+  });
+
+  const isGoldMember = currentUserData?.membership === "gold";
+  const isAdmin = currentUserData?.role === "admin";
+  const shouldDisablePayment = isGoldMember || isAdmin;
 
   const handlePayment = async () => {
-    if (user?.membership === "gold") {
+    if (isAdmin) {
+      return Swal.fire(
+        "Info",
+        "Admins don’t need to upgrade membership.",
+        "info"
+      );
+    }
+
+    if (isGoldMember) {
       return Swal.fire("Info", "You're already a Gold Member 🥇", "info");
     }
 
@@ -26,6 +53,10 @@ const MembershipPage = () => {
           membership: "gold",
         });
 
+        await queryClient.invalidateQueries({
+          queryKey: ["user", user?.email],
+        });
+
         Swal.fire({
           title: "🎉 You're now a Gold Member!",
           html: "<h2 class='text-xl mt-2'>Welcome to the elite Thinkhub community 🥇</h2>",
@@ -33,11 +64,27 @@ const MembershipPage = () => {
           confirmButtonText: "Start Posting",
         });
       } catch (error) {
-        console.log(error);
+        console.error(error);
         Swal.fire("Error", "Payment failed. Try again later.", "error");
       }
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="text-white text-center py-10">
+        Loading membership info...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-red-400 text-center py-10">
+        Failed to load user data.
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
@@ -103,21 +150,24 @@ const MembershipPage = () => {
             </li>
           </ul>
 
-          <button
-            onClick={handlePayment}
-            disabled={user?.membership === "gold"}
-            className={`mt-6 w-full font-bold py-3 rounded-xl transition cursor-pointer
-              ${
-                user?.membership === "gold"
-                  ? "bg-gray-500 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600 text-white"
-              }
-            `}
-          >
-            {user?.membership === "gold"
-              ? "You're Already a Gold Member 🥇"
-              : "Make Payment - $10"}
-          </button>
+          {/* Payment Button */}
+          {!isAdmin && (
+            <button
+              onClick={handlePayment}
+              disabled={shouldDisablePayment}
+              className={`mt-6 w-full font-bold py-3 rounded-xl transition cursor-pointer
+                ${
+                  shouldDisablePayment
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-600 text-white"
+                }
+              `}
+            >
+              {isGoldMember
+                ? "You're Already a Gold Member 🥇"
+                : "Make Payment - $10"}
+            </button>
+          )}
         </div>
 
         {/* Right Card - Badges Info */}
