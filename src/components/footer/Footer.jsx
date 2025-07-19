@@ -1,5 +1,6 @@
 import React from "react";
 import { FaFacebookF, FaTwitter, FaGithub, FaLinkedinIn } from "react-icons/fa";
+import ThinkHubLogo from "../logo/ThinkHubLogo";
 
 const Footer = () => {
   return (
@@ -9,13 +10,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-700 pb-8">
           {/* Logo & Description */}
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <img
-                src="/logo.png"
-                alt="ThinkHub Logo"
-                className="w-8 h-8 rounded"
-              />
-              <h1 className="text-xl font-bold">ThinkHub</h1>
+            <div className="mb-6">
+              <ThinkHubLogo />
             </div>
             <p className="text-sm text-gray-400 mb-4">
               ThinkHub is a place to share ideas, ask questions, and connect

@@ -4,6 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
 import NotificationBell from "../../pages/home-page/announcements/NotificationBell";
+import ThinkHubLogo from "../logo/ThinkHubLogo";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -30,11 +31,8 @@ const Navbar = () => {
       <div className="navbar max-w-[1440px] mx-auto px-4">
         {/* Start - Logo and Brand */}
         <div className="navbar-start">
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold">
-            <img src="/logo.png" alt="logo" className="w-8 h-8 rounded" />
-            <span className="hidden sm:inline-block text-blue-500">
-              ThinkHub
-            </span>
+          <Link to="/">
+            <ThinkHubLogo/>
           </Link>
         </div>
 

@@ -17,6 +17,7 @@ import MakeAnnouncement from "../pages/dashboard/admin/make-announcemments/MakeA
 import MembershipPage from "../pages/membership/MembershipPage";
 import AdminRoute from "../routes/AdminRoute";
 import Forbidden from "../components/forbidden/Forbidden";
+import NotFoundPage from "../pages/not-found/NotFoundPage";
 
 const router = createBrowserRouter([
   {
@@ -117,6 +118,10 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "/*",
+    Component: NotFoundPage,
   },
 ]);
 

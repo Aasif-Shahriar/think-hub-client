@@ -15,6 +15,7 @@ import { FiUser } from "react-icons/fi";
 import { useAuth } from "../hooks/useAuth";
 import useUserRole from "../hooks/useUserRole";
 import LoadingBar from "../components/loding/LoadingBar";
+import logo from '../assets/images/Think.png'
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -31,7 +32,9 @@ const DashboardLayout = () => {
       {/* Sidebar */}
       <div
         className={`bg-slate-800 w-64 space-y-6 z-20 overflow-y-auto fixed top-0 left-0 h-screen transition-transform duration-300 ease-in-out
-        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+        ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }`}
       >
         {/* Mobile Close Button */}
         <div className="md:hidden flex justify-end p-4">
@@ -45,11 +48,16 @@ const DashboardLayout = () => {
 
         {/* Logo */}
         <Link to="/">
-          <div className="space-y-1 p-4">
-            <h1 className="text-2xl font-bold">ThinkHub</h1>
-            <p className="text-xs font-semibold text-gray-400">
-              Developer Forum
-            </p>
+          <div className="flex items-center gap-2 space-y-1 p-4">
+            <div>
+              <img src={logo} alt="" className="w-12 h-12 object-cover" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">ThinkHub</h1>
+              <p className="text-xs font-semibold text-gray-400">
+                Developer Forum
+              </p>
+            </div>
           </div>
         </Link>
 
@@ -96,10 +104,16 @@ const DashboardLayout = () => {
                 </>
               ) : (
                 <>
-                  <NavLink to="/dashboard/admin-profile" className={navLinkClass}>
+                  <NavLink
+                    to="/dashboard/admin-profile"
+                    className={navLinkClass}
+                  >
                     <FiUser /> Admin Profile
                   </NavLink>
-                  <NavLink to="/dashboard/manage-users" className={navLinkClass}>
+                  <NavLink
+                    to="/dashboard/manage-users"
+                    className={navLinkClass}
+                  >
                     <FaUsers /> Manage Users
                   </NavLink>
                   <NavLink
@@ -108,7 +122,10 @@ const DashboardLayout = () => {
                   >
                     <FaFlag /> Reported Comments
                   </NavLink>
-                  <NavLink to="/dashboard/announcement" className={navLinkClass}>
+                  <NavLink
+                    to="/dashboard/announcement"
+                    className={navLinkClass}
+                  >
                     <FaBullhorn /> Make Announcement
                   </NavLink>
                 </>
@@ -144,6 +161,7 @@ const DashboardLayout = () => {
 
         <Outlet />
       </div>
+      <title>Dashboard Home | ThinkHub</title>
     </div>
   );
 };
