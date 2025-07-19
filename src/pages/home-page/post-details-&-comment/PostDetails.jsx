@@ -23,7 +23,6 @@ const PostDetails = () => {
     },
   });
 
-  console.log(post);
 
   if (isLoading) return <LoadingBar />;
   if (isError) {

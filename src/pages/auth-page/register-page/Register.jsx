@@ -7,6 +7,8 @@ import { auth } from "../../../../firebase.init";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import SocialLogin from "../social-login/SocialLogin";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const cloudName = import.meta.env.VITE_CLOUD_NAME;
 const uploadPreset = import.meta.env.VITE_CLOUD_UPLOAD_PRESET;
@@ -27,6 +29,9 @@ const Register = () => {
   const location = useLocation();
   const from = location.state?.from;
   const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();
@@ -155,38 +160,59 @@ const Register = () => {
                   <p className="text-red-500 text-sm">Email is required</p>
                 )}
               </div>
+              {/* Password */}
               <div>
                 <label className="block mb-1 font-medium">Password</label>
-                <input
-                  type="password"
-                  {...register("password", { required: true })}
-                  className="input input-bordered w-full"
-                  placeholder="Enter your password"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    {...register("password", { required: true })}
+                    className="input input-bordered w-full pr-10"
+                    placeholder="Enter your password"
+                  />
+                  <span
+                    className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
                 {errors.password && (
                   <p className="text-red-500 text-sm">Password is required</p>
                 )}
               </div>
+
+              {/* Confirm Password */}
               <div>
                 <label className="block mb-1 font-medium">
                   Confirm Password
                 </label>
-                <input
-                  type="password"
-                  {...register("confirm", {
-                    validate: (value) =>
-                      value === watch("password") || "Passwords do not match",
-                  })}
-                  className="input input-bordered w-full"
-                  placeholder="Confirm your password"
-                />
+                <div className="relative">
+                  <input
+                    type={showConfirm ? "text" : "password"}
+                    {...register("confirm", {
+                      validate: (value) =>
+                        value === watch("password") || "Passwords do not match",
+                    })}
+                    className="input input-bordered w-full pr-10"
+                    placeholder="Confirm your password"
+                  />
+                  <span
+                    className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                    onClick={() => setShowConfirm(!showConfirm)}
+                  >
+                    {showConfirm ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
                 {errors.confirm && (
                   <p className="text-red-500 text-sm">
                     {errors.confirm.message}
                   </p>
                 )}
               </div>
-              <button className="btn btn-primary w-full">{loading?"Registering...":"Register"}</button>
+              <button className="btn btn-primary w-full">
+                {loading ? "Registering..." : "Register"}
+              </button>
             </form>
 
             <div className="text-center mt-4">
