@@ -37,13 +37,22 @@ const Banner = ({ searchTag, setSearchTag }) => {
     >
       <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-indigo-600/80 z-0"></div>
 
-      <div className="hero-content text-center text-neutral-content relative z-10 flex flex-col items-center">
-        <h1 className="text-2xl text-white sm:text-3xl md:text-5xl font-semibold mb-6">
+      <div
+        className="hero-content text-center text-neutral-content relative z-10 flex flex-col items-center"
+        data-aos="fade-down"
+      >
+        <h1
+          className="text-2xl text-white sm:text-3xl md:text-5xl font-semibold mb-6"
+          data-aos="fade-up"
+        >
           Find the developer discussions you need
         </h1>
 
-        {/* Search Form */}
-        <form onSubmit={handleSearch} className="mb-5 w-full max-w-[600px]">
+        <form
+          onSubmit={handleSearch}
+          className="mb-5 w-full max-w-[600px]"
+          data-aos="zoom-in"
+        >
           <label className="input border-none flex items-center gap-2 w-full bg-white text-black shadow">
             <FaSearch className="text-blue-600" />
             <input
@@ -56,8 +65,11 @@ const Banner = ({ searchTag, setSearchTag }) => {
           </label>
         </form>
 
-        {/* Tag Buttons */}
-        <div className="flex flex-wrap justify-center gap-3">
+        <div
+          className="flex flex-wrap justify-center gap-3"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
           {tags.map((tag, index) => (
             <span
               key={index}

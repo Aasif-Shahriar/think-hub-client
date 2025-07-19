@@ -38,8 +38,11 @@ const PopularTags = ({ setSearchTag }) => {
   if (isError) return <p className="text-red-500">Failed to load tags</p>;
 
   return (
-    <section className="my-10 max-w-[1440px] mx-auto px-4">
-      <h3 className="text-xl font-bold text-white mb-3">🔥 Popular Tags</h3>
+    <section className="my-10 max-w-[1440px] mx-auto px-4" data-aos="fade-up">
+      <h3 className="text-xl font-bold text-white mb-3" data-aos="fade-left">
+        🔥 Popular Tags
+      </h3>
+
       <Swiper spaceBetween={10} slidesPerView="auto" className="w-full">
         {tags.map((tag) => {
           const tagName = tag._id.toLowerCase();

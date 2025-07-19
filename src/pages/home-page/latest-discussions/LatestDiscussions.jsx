@@ -11,7 +11,6 @@ const LatestDiscussions = ({ searchTag }) => {
   const limit = 5;
   const axiosSecure = useAxiosSecure();
 
-  // Reset to page 1 when searchTag changes
   useEffect(() => {
     setPage(1);
   }, [searchTag]);
@@ -72,8 +71,14 @@ const LatestDiscussions = ({ searchTag }) => {
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {posts.map((post) => (
-            <DiscussionCard key={post._id} post={post} />
+          {posts.map((post, index) => (
+            <div
+              key={post._id}
+              data-aos="fade-up"
+              data-aos-delay={index * 100} // delay increases by 100ms for each card
+            >
+              <DiscussionCard post={post} />
+            </div>
           ))}
         </div>
       )}

@@ -1,4 +1,4 @@
-import { FaCrown, FaStar, FaTrophy, FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useAuth } from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -40,32 +40,47 @@ const MembershipPage = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
       <title>Membership | ThinkHub</title>
-      <div className="text-center mb-8">
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white">
+
+      {/* Header */}
+      <div
+        className="text-center mb-8 px-2 sm:px-6"
+        data-aos="fade-down"
+        data-aos-delay="100"
+      >
+        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
           Become a{" "}
           <span className="text-yellow-400">
             ThinkHub Gold <br /> Member
           </span>
         </h1>
-        <p className="text-gray-400 text-lg md:text-xl lg:text-2xl font-semibold my-3">
+        <p className="text-gray-400 text-base sm:text-lg md:text-xl lg:text-2xl font-semibold my-3">
           Post without limits. Stand out with the Gold Badge 🥇
         </p>
-        <span className="inline-block mt-4 bg-yellow-500/10 text-yellow-400 px-3 py-2 rounded-full font-semibold border border-yellow-500/20">
+        <span className="inline-block mt-4 bg-yellow-500/10 text-yellow-400 px-3 py-2 rounded-full font-semibold border border-yellow-500/20 text-sm sm:text-base">
           🥇 Elite Community Access
         </span>
       </div>
 
+      {/* Main Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Left Card - Payment Section */}
-        <div className="md:col-span-2 bg-slate-800 text-white rounded-xl p-6 border-l-4 border-yellow-400 shadow-[0_0_10px_#facc15]">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-white">Gold Membership</h2>
-            <p className=" text-yellow-400 text-3xl font-bold">$10</p>
+        <div
+          className="md:col-span-2 bg-slate-800 text-white rounded-xl p-6 border-l-4 border-yellow-400 shadow-[0_0_10px_#facc15]"
+          data-aos="fade-right"
+          data-aos-delay="200"
+        >
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
+              Gold Membership
+            </h2>
+            <p className="text-yellow-400 text-2xl sm:text-3xl font-bold">
+              $10
+            </p>
           </div>
 
-          <ul className="mt-5 space-y-4 ">
+          <ul className="mt-5 space-y-4 text-sm sm:text-base">
             <li className="flex items-center gap-2">
               <FaCheckCircle className="text-green-500" /> Post more than 5
               posts per day
@@ -91,13 +106,13 @@ const MembershipPage = () => {
           <button
             onClick={handlePayment}
             disabled={user?.membership === "gold"}
-            className={`mt-6 w-full font-bold py-2 px-4 rounded-xl transition cursor-pointer
-    ${
-      user?.membership === "gold"
-        ? "bg-gray-500 cursor-not-allowed"
-        : "bg-blue-500 hover:bg-blue-600 text-white"
-    }
-  `}
+            className={`mt-6 w-full font-bold py-3 rounded-xl transition cursor-pointer
+              ${
+                user?.membership === "gold"
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600 text-white"
+              }
+            `}
           >
             {user?.membership === "gold"
               ? "You're Already a Gold Member 🥇"
@@ -106,8 +121,12 @@ const MembershipPage = () => {
         </div>
 
         {/* Right Card - Badges Info */}
-        <div className="md:col-span-1 space-y-6">
-          <h3 className="text-lg font-semibold text-gray-200">
+        <div
+          className="md:col-span-1 space-y-6 px-2 sm:px-0"
+          data-aos="fade-left"
+          data-aos-delay="300"
+        >
+          <h3 className="text-lg font-semibold text-gray-200 text-center md:text-left">
             Membership Badges
           </h3>
 
@@ -115,7 +134,9 @@ const MembershipPage = () => {
             <h4 className="text-orange-500 text-xl font-bold text-center">
               🥉 Bronze Member
             </h4>
-            <p className="text-gray-300 text-center">Free for all users</p>
+            <p className="text-gray-300 text-center text-sm sm:text-base">
+              Free for all users
+            </p>
             <ul className="mt-2 list-disc list-inside text-sm text-gray-100">
               <li>5 posts per day</li>
               <li>Basic forum access</li>
@@ -126,7 +147,9 @@ const MembershipPage = () => {
             <h4 className="text-yellow-600 text-xl font-bold text-center">
               🥇 Gold Member
             </h4>
-            <p className="text-gray-300 text-center">Premium membership</p>
+            <p className="text-gray-300 text-center text-sm sm:text-base">
+              Premium membership
+            </p>
             <ul className="mt-2 list-disc list-inside text-sm text-white">
               <li>Unlimited posts</li>
               <li>Priority visibility</li>

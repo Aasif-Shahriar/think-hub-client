@@ -22,8 +22,12 @@ const Announcements = () => {
     <section
       id="announcement"
       className="max-w-[1440px] mx-auto px-4 py-6 bg-slate-900 text-white rounded-md shadow-md my-6"
+      data-aos="fade-up"
     >
-      <div className="flex items-center justify-between mb-4">
+      <div
+        className="flex items-center justify-between mb-4"
+        data-aos="fade-down"
+      >
         <h3 className="text-lg font-semibold">📢 Announcements</h3>
 
         <p className="bg-blue-500 px-2 py-1 rounded-full text-xs font-medium">
@@ -33,15 +37,19 @@ const Announcements = () => {
 
       <ul className="space-y-4">
         {data.map(
-          ({ _id, title, description, authorName, authorImage, createdAt }) => (
-            <AnnouncementCard
-              key={_id}
-              title={title}
-              description={description}
-              authorName={authorName}
-              authorImage={authorImage}
-              createdAt={createdAt}
-            />
+          (
+            { _id, title, description, authorName, authorImage, createdAt },
+            index
+          ) => (
+            <li key={_id} data-aos="fade-up" data-aos-delay={index * 100}>
+              <AnnouncementCard
+                title={title}
+                description={description}
+                authorName={authorName}
+                authorImage={authorImage}
+                createdAt={createdAt}
+              />
+            </li>
           )
         )}
       </ul>
