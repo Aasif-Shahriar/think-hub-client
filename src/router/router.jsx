@@ -18,6 +18,7 @@ import MembershipPage from "../pages/membership/MembershipPage";
 import AdminRoute from "../routes/AdminRoute";
 import Forbidden from "../components/forbidden/Forbidden";
 import NotFoundPage from "../pages/not-found/NotFoundPage";
+import DashboardHome from "../pages/dashboard/dashboard-home/DashboardHome";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      { index: true, Component: DashboardHome },
       {
         path: "/dashboard/profile",
         element: <MyProfile />,

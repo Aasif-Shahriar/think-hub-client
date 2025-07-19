@@ -15,7 +15,7 @@ import { FiUser } from "react-icons/fi";
 import { useAuth } from "../hooks/useAuth";
 import useUserRole from "../hooks/useUserRole";
 import LoadingBar from "../components/loding/LoadingBar";
-import logo from '../assets/images/Think.png'
+import logo from "../assets/images/Think.png";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
