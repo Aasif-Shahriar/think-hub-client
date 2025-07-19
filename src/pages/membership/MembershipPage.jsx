@@ -2,7 +2,6 @@ import { FaCrown, FaStar, FaTrophy, FaCheckCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useAuth } from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { Helmet } from "react-helmet-async";
 
 const MembershipPage = () => {
   const { user } = useAuth();
@@ -42,10 +41,7 @@ const MembershipPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <Helmet>
-        {" "}
-        <title>Membership | ThinkHub</title>
-      </Helmet>
+      <title>Membership | ThinkHub</title>
       <div className="text-center mb-8">
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white">
           Become a{" "}

@@ -15,6 +15,8 @@ import ManageUsers from "../pages/dashboard/admin/manage-users/ManageUsers";
 import ReportedComments from "../pages/dashboard/admin/reported-comments/ReportedComments";
 import MakeAnnouncement from "../pages/dashboard/admin/make-announcemments/MakeAnnouncement";
 import MembershipPage from "../pages/membership/MembershipPage";
+import AdminRoute from "../routes/AdminRoute";
+import Forbidden from "../components/forbidden/Forbidden";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +51,10 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/forbidden",
+        Component: Forbidden,
+      },
     ],
   },
   //   dashboard
@@ -80,19 +86,35 @@ const router = createBrowserRouter([
       // admin route
       {
         path: "/dashboard/admin-profile",
-        element: <AdminProfile />,
+        element: (
+          <AdminRoute>
+            <AdminProfile />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/manage-users",
-        element: <ManageUsers />,
+        element: (
+          <AdminRoute>
+            <ManageUsers />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/reported-comments",
-        element: <ReportedComments />,
+        element: (
+          <AdminRoute>
+            <ReportedComments />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/announcement",
-        element: <MakeAnnouncement />,
+        element: (
+          <AdminRoute>
+            <MakeAnnouncement />
+          </AdminRoute>
+        ),
       },
     ],
   },
