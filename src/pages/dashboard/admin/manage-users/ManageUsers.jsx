@@ -75,7 +75,7 @@ const ManageUsers = () => {
   }
 
   return (
-    <div className="p-4">
+    <div className="py-4 sm:px-4 md:px-8">
       <h2 className="text-2xl font-bold mb-4 text-white">Manage Users</h2>
 
       <div className="flex flex-col sm:flex-row gap-2 mb-4">
@@ -100,8 +100,8 @@ const ManageUsers = () => {
       {isLoading ? (
         <LoadingBar />
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border border-slate-700">
+        <div className="overflow-x-auto rounded border border-slate-700">
+          <table className="w-full text-left min-w-[600px] sm:min-w-full">
             <thead>
               <tr className="bg-slate-700 text-white">
                 <th className="px-4 py-2">Name</th>
@@ -116,76 +116,75 @@ const ManageUsers = () => {
                   key={user._id}
                   className="border-b border-slate-700 text-white"
                 >
-                  <td className="px-4 py-3">{user.name}</td>
-                  <td className="px-4 py-3">{user.email}</td>
+                  <td className="px-4 py-3 max-w-[150px] truncate">{user.name}</td>
+                  <td className="px-4 py-3 max-w-[200px] truncate">{user.email}</td>
                   <td className="px-4 py-3">
                     {user.role === "admin" ? (
                       <button
                         onClick={() => handleRemoveAdmin(user.email)}
-                        className="text-red-400 hover:underline cursor-pointer"
+                        className="text-red-400 hover:underline cursor-pointer whitespace-nowrap"
                       >
                         Remove Admin
                       </button>
                     ) : (
                       <button
                         onClick={() => openAdminModal(user)}
-                        className="text-blue-500 hover:underline flex items-center gap-1 cursor-pointer"
+                        className="text-blue-500 hover:underline flex items-center gap-1 cursor-pointer whitespace-nowrap"
                       >
                         <FaUserShield /> Make Admin
                       </button>
                     )}
                   </td>
-                  <td className="px-4 py-3 capitalize text-yellow-600">{user.membership}</td>
+                  <td className="px-4 py-3 capitalize text-yellow-600 whitespace-nowrap">
+                    {user.membership}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
-
-          {/* Pagination */}
-          <div className="flex justify-center items-center mt-4 gap-2">
-            {/* Prev Button */}
-            <button
-              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-              disabled={page === 1}
-              className={`px-3 py-1 rounded ${
-                page === 1
-                  ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-slate-700 hover:bg-blue-700"
-              } text-white`}
-            >
-              Prev
-            </button>
-
-            {/* Page Numbers */}
-            {[...Array(totalPages).keys()].map((i) => (
-              <button
-                key={i}
-                onClick={() => setPage(i + 1)}
-                className={`px-3 py-1 rounded ${
-                  page === i + 1
-                    ? "bg-blue-600 text-white"
-                    : "bg-slate-700 text-gray-300"
-                } hover:bg-blue-700 cursor-pointer`}
-              >
-                {i + 1}
-              </button>
-            ))}
-
-            {/* Next Button */}
-            <button
-              onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={page === totalPages}
-              className={`px-3 py-1 rounded ${
-                page === totalPages
-                  ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-slate-700 hover:bg-blue-700"
-              } text-white`}
-            >
-              Next
-            </button>
-          </div>
         </div>
       )}
+
+      {/* Pagination */}
+      <div className="flex flex-wrap justify-center items-center mt-4 gap-2">
+        <button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+          className={`px-3 py-1 rounded ${
+            page === 1
+              ? "bg-gray-600 cursor-not-allowed"
+              : "bg-slate-700 hover:bg-blue-700"
+          } text-white`}
+        >
+          Prev
+        </button>
+
+        {[...Array(totalPages).keys()].map((i) => (
+          <button
+            key={i}
+            onClick={() => setPage(i + 1)}
+            className={`px-3 py-1 rounded ${
+              page === i + 1
+                ? "bg-blue-600 text-white"
+                : "bg-slate-700 text-gray-300"
+            } hover:bg-blue-700 cursor-pointer`}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={page === totalPages}
+          className={`px-3 py-1 rounded ${
+            page === totalPages
+              ? "bg-gray-600 cursor-not-allowed"
+              : "bg-slate-700 hover:bg-blue-700"
+          } text-white`}
+        >
+          Next
+        </button>
+      </div>
 
       {/* Modal for confirm admin */}
       <Dialog
@@ -208,15 +207,14 @@ const ManageUsers = () => {
                 <span className="font-medium">Name:</span> {selectedUser?.name}
               </p>
               <p>
-                <span className="font-medium">Email:</span>{" "}
-                {selectedUser?.email}
+                <span className="font-medium">Email:</span> {selectedUser?.email}
               </p>
               <p>
                 <span className="font-medium">Membership:</span>{" "}
                 {selectedUser?.membership}
               </p>
             </div>
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 flex-wrap">
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded cursor-pointer"
@@ -233,8 +231,8 @@ const ManageUsers = () => {
           </Dialog.Panel>
         </div>
       </Dialog>
-      <title>Manage Users | ThinkHub</title>
 
+      <title>Manage | ThinkHub</title>
     </div>
   );
 };

@@ -23,7 +23,6 @@ const PostDetails = () => {
     },
   });
 
-
   if (isLoading) return <LoadingBar />;
   if (isError) {
     toast.error("Failed to load post");

@@ -19,7 +19,7 @@ export const AnnouncementCard = ({
         className="w-12 h-12 rounded-full object-cover mt-1 bg-blue-100 hidden md:block"
       />
       <div className="flex-1">
-        <div className="flex items-center justify-between my-2">
+        <div className="flex flex-col md:flex-row md:items-center justify-between my-2">
           <h4 className="font-semibold">{title}</h4>
           <p className="text-sm font-semibold text-gray-400">
             {moment(createdAt).fromNow()}

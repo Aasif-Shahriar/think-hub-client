@@ -19,6 +19,7 @@ const CommentsSection = ({ postId }) => {
   } = useForm();
   const [loading, setLoading] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(5);
 
   // Fetch comments
   const { data: comments = [], isLoading } = useQuery({
@@ -53,6 +54,12 @@ const CommentsSection = ({ postId }) => {
     }
   };
 
+  const visibleMoreComments = comments.slice(0, visibleCount);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 5);
+  };
+
   return (
     <div className="max-w-3xl mx-auto pt-10 text-white">
       {/* Top Heading */}
@@ -77,7 +84,6 @@ const CommentsSection = ({ postId }) => {
 
               {/* Textarea */}
               <div className="flex-1">
-                {/* Textarea */}
                 <textarea
                   {...register("comment", { required: "Comment is required." })}
                   placeholder="Write your comment..."
@@ -87,7 +93,6 @@ const CommentsSection = ({ postId }) => {
                   disabled={loading}
                 ></textarea>
 
-                {/* Error Message */}
                 {errors.comment && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.comment.message}
@@ -120,44 +125,54 @@ const CommentsSection = ({ postId }) => {
           No comments yet. Be the first to comment!
         </p>
       ) : (
-        <div className="space-y-6">
-          {comments.map((c) => {
-            const isLong = c.text.length > 150;
-
-            return (
-              <div
-                key={c._id}
-                className="bg-slate-800 p-4 rounded-md flex gap-4"
-              >
-                <img
-                  src={c.userImage}
-                  alt={c.userName}
-                  className="w-10 h-10 object-cover rounded-full bg-white"
-                />
-
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h4 className="font-semibold">{c.userName}</h4>
-                    <span className="text-xs text-gray-400">
-                      {moment(c.createdAt).fromNow()}
-                    </span>
+        <>
+          <div className="space-y-6">
+            {visibleMoreComments.map((c) => {
+              const isLong = c.text.length > 150;
+              return (
+                <div
+                  key={c._id}
+                  className="bg-slate-800 p-4 rounded-md flex gap-4"
+                >
+                  <img
+                    src={c.userImage}
+                    alt={c.userName}
+                    className="w-10 h-10 object-cover rounded-full bg-white"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h4 className="font-semibold">{c.userName}</h4>
+                      <span className="text-xs text-gray-400">
+                        {moment(c.createdAt).fromNow()}
+                      </span>
+                    </div>
+                    <p className="text-gray-200 line-clamp-2">{c.text}</p>
+                    {isLong && (
+                      <button
+                        onClick={() => setSelectedComment(c)}
+                        className="text-sm text-blue-400 mt-1 hover:underline cursor-pointer"
+                      >
+                        Read More
+                      </button>
+                    )}
                   </div>
-
-                  <p className="text-gray-200 line-clamp-2">{c.text}</p>
-
-                  {isLong && (
-                    <button
-                      onClick={() => setSelectedComment(c)}
-                      className="text-sm text-blue-400 mt-1 hover:underline cursor-pointer"
-                    >
-                      Read More
-                    </button>
-                  )}
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+
+          {/* Load More button */}
+          {visibleCount < comments.length && (
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={handleLoadMore}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md"
+              >
+                Load More Comments
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       {/* Modal for Full Comment */}

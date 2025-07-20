@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import moment from "moment";
-import {
-  FaThumbsUp,
-  FaThumbsDown,
-  FaCommentAlt,
-  FaShareAlt,
-} from "react-icons/fa";
+import { FaCommentAlt, FaShareAlt } from "react-icons/fa";
 import { FacebookShareButton, WhatsappShareButton } from "react-share";
 import { FaFacebook, FaWhatsapp, FaCopy } from "react-icons/fa6";
 import { toast } from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { TbArrowBigDownFilled, TbArrowBigUpFilled } from "react-icons/tb";
 
 const PostInfo = ({ post }) => {
   const {
@@ -30,59 +26,25 @@ const PostInfo = ({ post }) => {
 
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  // const [hasVoted, setHasVoted] = useState(false);
-  const [voteCount, setVoteCount] = useState({ up: upVote, down: downVote });
-  const [userVote, setUserVote] = useState(null);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (!user) return;
-    const email = user?.email;
-    if (upVoters.includes(email)) setUserVote("up");
-    else if (downVoters.includes(email)) setUserVote("down");
-    else setUserVote(null);
-  }, [user, upVoters, downVoters]);
+  const userEmail = user?.email;
+  const isUpVoted = upVoters.includes(userEmail);
+  const isDownVoted = downVoters.includes(userEmail);
 
   const handleVote = async (type) => {
     if (!user) return toast.error("Login required to vote");
 
     try {
-      await axiosSecure.patch(`/posts/${_id}/vote`, {
-        voteType: type,
-      });
-
-      if (userVote === type) {
-        // Undo vote
-        toast.success(`${type === "up" ? "Upvote" : "Downvote"} removed`);
-        setUserVote(null);
-        setVoteCount((prev) => ({
-          up: type === "up" ? prev.up - 1 : prev.up,
-          down: type === "down" ? prev.down - 1 : prev.down,
-        }));
-      } else if (userVote === null) {
-        // First time vote
-        toast.success(`Voted ${type === "up" ? "👍" : "👎"}`);
-        setUserVote(type);
-        setVoteCount((prev) => ({
-          up: type === "up" ? prev.up + 1 : prev.up,
-          down: type === "down" ? prev.down + 1 : prev.down,
-        }));
-      } else {
-        // Switch vote
-        toast.success(
-          `Switched to ${type === "up" ? "👍 Upvote" : "👎 Downvote"}`
-        );
-        setUserVote(type);
-        setVoteCount((prev) => ({
-          up: type === "up" ? prev.up + 1 : prev.up - 1,
-          down: type === "down" ? prev.down + 1 : prev.down - 1,
-        }));
-      }
+      await axiosSecure.patch(`/posts/${_id}/vote`, { voteType: type });
+      toast.success(`Voted ${type === "up" ? "👍 Upvote" : "👎 Downvote"}`);
+      queryClient.invalidateQueries(["post", _id]); 
     } catch (err) {
       toast.error(err.response?.data?.error || "Vote failed");
     }
   };
 
-  //total comments
+  // Comments query
   const { data: comments = [], isLoading } = useQuery({
     queryKey: ["comments", _id],
     queryFn: async () => {
@@ -93,7 +55,6 @@ const PostInfo = ({ post }) => {
 
   const postUrl = `${window.location.origin}/posts/${_id}`;
   const postTime = moment(createdAt).fromNow();
-
   const handleCopyLink = () => {
     navigator.clipboard.writeText(postUrl);
     toast.success("Link copied to clipboard!");
@@ -137,38 +98,45 @@ const PostInfo = ({ post }) => {
 
         {/* Reactions */}
         <div className="flex flex-wrap pt-3 items-center justify-between gap-2 text-sm">
-          <div className="flex items-center gap-1">
-            {/* up vote button */}
-            <button
-              onClick={() => handleVote("up")}
-              className={`flex cursor-pointer items-center gap-1 px-2 py-1 rounded-lg transition-colors duration-200 ${
-                userVote === "up"
-                  ? "bg-green-200 text-green-600"
-                  : "hover:bg-green-200 text-green-500"
-              }`}
-            >
-              <FaThumbsUp /> <span>{voteCount.up}</span>
-            </button>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center space-x-2 select-none px-2 py-1 rounded-lg bg-slate-700">
+              <button
+                onClick={() => handleVote("up")}
+                aria-label="Upvote"
+                className={`cursor-pointer text-xl transition-colors duration-200 ${
+                  isUpVoted
+                    ? "text-green-400"
+                    : "text-gray-400 hover:text-green-300"
+                }`}
+              >
+                <TbArrowBigUpFilled />
+              </button>
 
-            {/* down vote button */}
-            <button
-              onClick={() => handleVote("down")}
-              className={`flex items-center gap-1 cursor-pointer px-2 py-1 rounded-lg transition-colors duration-200 ${
-                userVote === "down"
-                  ? "bg-red-200 text-red-600"
-                  : "hover:bg-red-200 text-red-500"
-              }`}
-            >
-              <FaThumbsDown /> <span>{voteCount.down}</span>
-            </button>
+              <span className="font-bold text-white px-2">
+                {upVote - downVote}
+              </span>
 
+              <button
+                onClick={() => handleVote("down")}
+                aria-label="Downvote"
+                className={`cursor-pointer text-xl transition-colors duration-200 ${
+                  isDownVoted
+                    ? "text-red-400"
+                    : "text-gray-400 hover:text-red-300"
+                }`}
+              >
+                <TbArrowBigDownFilled />
+              </button>
+            </div>
+
+            {/* Comments count */}
             <div className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg">
-              <FaCommentAlt />{" "}
+              <FaCommentAlt />
               <span>{isLoading ? "..." : comments.length}</span>
             </div>
           </div>
 
-          {/* Share Icon - triggers modal */}
+          {/* Share Button */}
           <label
             htmlFor="share_modal"
             className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg"
@@ -182,7 +150,6 @@ const PostInfo = ({ post }) => {
         <input type="checkbox" id="share_modal" className="modal-toggle" />
         <div className="modal sm:modal-middle text-black">
           <div className="modal-box bg-white p-6 rounded-md w-80">
-            {/* Header */}
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-semibold text-lg text-slate-800">
                 Share Post

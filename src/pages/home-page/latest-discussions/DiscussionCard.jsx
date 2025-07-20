@@ -2,10 +2,9 @@ import { Link } from "react-router";
 import { TiMessages } from "react-icons/ti";
 import moment from "moment";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { TbArrowBigUp, TbArrowBigUpFilled } from "react-icons/tb";
 import { useAuth } from "../../../hooks/useAuth";
-import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const DiscussionCard = ({ post }) => {
@@ -16,66 +15,36 @@ const DiscussionCard = ({ post }) => {
     createdAt,
     title,
     tags,
-    upVote,
-    downVote,
+    upVote = 0,
+    downVote = 0,
     upVoters = [],
     downVoters = [],
   } = post;
 
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  const [voteCount, setVoteCount] = useState({ up: upVote, down: downVote });
-  const [userVote, setUserVote] = useState(null);
 
-  useEffect(() => {
-    if (!user) return;
-    const email = user?.email;
-    if (upVoters.includes(email)) setUserVote("up");
-    else if (downVoters.includes(email)) setUserVote("down");
-    else setUserVote(null);
-  }, [user, upVoters, downVoters]);
+  const queryClient = useQueryClient();
+
+  const userEmail = user?.email;
+  const isUpVoted = upVoters.includes(userEmail);
+  const isDownVoted = downVoters.includes(userEmail);
+  const score = upVote - downVote;
 
   const handleVote = async (type) => {
     if (!user) return toast.error("Login required to vote");
 
     try {
-      await axiosSecure.patch(`/posts/${_id}/vote`, {
-        voteType: type,
-      });
+      await axiosSecure.patch(`/posts/${_id}/vote`, { voteType: type });
+      toast.success(`Voted ${type === "up" ? "👍 Upvote" : "👎 Downvote"}`);
 
-      if (userVote === type) {
-        // Undo vote
-        toast.success(`${type === "up" ? "Upvote" : "Downvote"} removed`);
-        setUserVote(null);
-        setVoteCount((prev) => ({
-          up: type === "up" ? prev.up - 1 : prev.up,
-          down: type === "down" ? prev.down - 1 : prev.down,
-        }));
-      } else if (userVote === null) {
-        // First time vote
-        toast.success(`Voted ${type === "up" ? "👍" : "👎"}`);
-        setUserVote(type);
-        setVoteCount((prev) => ({
-          up: type === "up" ? prev.up + 1 : prev.up,
-          down: type === "down" ? prev.down + 1 : prev.down,
-        }));
-      } else {
-        // Switch vote
-        toast.success(
-          `Switched to ${type === "up" ? "👍 Upvote" : "👎 Downvote"}`
-        );
-        setUserVote(type);
-        setVoteCount((prev) => ({
-          up: type === "up" ? prev.up + 1 : prev.up - 1,
-          down: type === "down" ? prev.down + 1 : prev.down - 1,
-        }));
-      }
+      queryClient.invalidateQueries(["post", _id]);
+      queryClient.invalidateQueries({ queryKey: ["posts"], exact: false });
     } catch (err) {
       toast.error(err.response?.data?.error || "Vote failed");
     }
   };
 
-  //total comments
   const { data: comments = [], isLoading } = useQuery({
     queryKey: ["comments", _id],
     queryFn: async () => {
@@ -121,37 +90,37 @@ const DiscussionCard = ({ post }) => {
 
       {/* Votes & Comments */}
       <div className="flex justify-between text-sm text-gray-300 items-center">
-        <div className="flex gap-4">
+        <div className="flex gap-0.5 items-center">
           <button
             onClick={() => handleVote("up")}
             className={`flex items-center gap-1 px-2 py-1 cursor-pointer rounded-lg transition-colors duration-200 ${
-              userVote === "up"
+              isUpVoted
                 ? "text-green-600"
                 : "text-green-500 hover:text-green-600"
             }`}
+            aria-label="Upvote"
           >
-            {userVote === "up" ? (
+            {isUpVoted ? (
               <TbArrowBigUpFilled size={20} />
             ) : (
               <TbArrowBigUp size={20} />
             )}
-            <span>{voteCount.up}</span>
           </button>
+
+          <span className="font-semibold">{score}</span>
 
           <button
             onClick={() => handleVote("down")}
             className={`flex items-center gap-1 px-2 py-1 cursor-pointer rounded-lg transition-colors duration-200 ${
-              userVote === "down"
-                ? "text-red-600"
-                : "text-red-500 hover:text-red-600"
+              isDownVoted ? "text-red-600" : "text-red-500 hover:text-red-600"
             }`}
+            aria-label="Downvote"
           >
-            {userVote === "down" ? (
+            {isDownVoted ? (
               <TbArrowBigUpFilled size={20} className="rotate-180" />
             ) : (
               <TbArrowBigUp size={20} className="rotate-180" />
             )}
-            <span>{voteCount.down}</span>
           </button>
         </div>
         <div className="flex items-center gap-1">
