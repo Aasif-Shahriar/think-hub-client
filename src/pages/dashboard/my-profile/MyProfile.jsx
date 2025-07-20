@@ -33,8 +33,7 @@ const MyProfile = () => {
     },
     enabled: !!user?.email,
   });
-
-  // Fetch recent posts
+  console.log(dbUser);
   const { data: recentPosts = [], isLoading: loadingPosts } = useQuery({
     queryKey: ["recentPosts", user?.email],
     queryFn: async () => {
@@ -47,7 +46,6 @@ const MyProfile = () => {
     enabled: !!user?.email,
   });
 
-  //  Sync aboutMe state when user data is loaded
   useEffect(() => {
     if (dbUser?.aboutMe) setAboutMe(dbUser.aboutMe);
   }, [dbUser]);
@@ -64,7 +62,6 @@ const MyProfile = () => {
       toast.error("Failed to update About Me");
     }
   };
-
 
   return (
     <div className="space-y-6">
@@ -92,18 +89,18 @@ const MyProfile = () => {
               {dbUser.email}
             </p>
             {/* membership badge */}
-            {dbUser.membership && (
-              <span
-                className={`mt-2 inline-block text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide ${
-                  dbUser.membership === "bronze"
-                    ? "bg-yellow-600/10 text-yellow-600"
-                    : dbUser.membership === "gold"
-                    ? "bg-yellow-500/10 text-yellow-500"
-                    : "bg-gray-600 text-white"
-                }`}
-              >
-                🥇 {dbUser.membership} Member
-              </span>
+            {dbUser.isMember && (
+              <div className="mt-2 flex items-center gap-2">
+                <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide bg-orange-600/10 text-orange-600">
+                  🥉 Bronze Badge
+                </span>
+
+                {dbUser.membership === "gold" && (
+                  <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide bg-yellow-500/10 text-yellow-500">
+                    🥇 Gold Badge
+                  </span>
+                )}
+              </div>
             )}
           </div>
         </div>

@@ -53,7 +53,7 @@ const AddPost = () => {
     formState: { errors },
   } = useForm();
 
-  // ✅ Get user details including membership
+  //  Get user details including membership
   const { data: userData, isLoading: userLoading } = useQuery({
     queryKey: ["userData", user?.email],
     enabled: !!user?.email,
@@ -63,7 +63,7 @@ const AddPost = () => {
     },
   });
 
-  // ✅ Get post count
+  // Get post count
   const { data: postCount = 0, isLoading: countLoading } = useQuery({
     queryKey: ["userPostCount", user?.email],
     enabled: !!user?.email,
@@ -114,10 +114,9 @@ const AddPost = () => {
     }
   };
 
-  // ✅ Wait for data
   if (userLoading || countLoading || tagsLoading) return <LoadingBar />;
 
-  // ✅ Handle Bronze post limit
+  //  Handle Bronze post limit
   if (userData?.membership === "bronze" && postCount >= 5) {
     return (
       <div className="text-center mt-10 space-y-4">
@@ -136,7 +135,7 @@ const AddPost = () => {
     );
   }
 
-  // ✅ Main form
+  //  Main form
   return (
     <div className="max-w-2xl mx-auto py-8">
       <div className="space-y-1 mb-6">

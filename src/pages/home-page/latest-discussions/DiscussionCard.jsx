@@ -29,6 +29,7 @@ const DiscussionCard = ({ post }) => {
   const userEmail = user?.email;
   const isUpVoted = upVoters.includes(userEmail);
   const isDownVoted = downVoters.includes(userEmail);
+
   const score = upVote - downVote;
 
   const handleVote = async (type) => {
@@ -91,37 +92,52 @@ const DiscussionCard = ({ post }) => {
       {/* Votes & Comments */}
       <div className="flex justify-between text-sm text-gray-300 items-center">
         <div className="flex gap-0.5 items-center">
-          <button
-            onClick={() => handleVote("up")}
-            className={`flex items-center gap-1 px-2 py-1 cursor-pointer rounded-lg transition-colors duration-200 ${
-              isUpVoted
-                ? "text-green-600"
-                : "text-green-500 hover:text-green-600"
-            }`}
-            aria-label="Upvote"
+          <div
+            className={`flex gap-0.5 items-center rounded-lg px-2 py-1 transition-colors duration-200
+    ${
+      isUpVoted
+        ? "bg-green-500 text-white"
+        : "bg-transparent text-green-500 hover:text-green-600"
+    }`}
           >
-            {isUpVoted ? (
-              <TbArrowBigUpFilled size={20} />
-            ) : (
-              <TbArrowBigUp size={20} />
-            )}
-          </button>
+            <button
+              onClick={() => handleVote("up")}
+              className="flex items-center gap-1 cursor-pointer"
+              aria-label="Upvote"
+            >
+              {isUpVoted ? (
+                <TbArrowBigUpFilled size={20} />
+              ) : (
+                <TbArrowBigUp size={20} />
+              )}
+            </button>
+            <span className="font-semibold">{upVote}</span>
+          </div>
 
-          <span className="font-semibold">{score}</span>
-
-          <button
-            onClick={() => handleVote("down")}
-            className={`flex items-center gap-1 px-2 py-1 cursor-pointer rounded-lg transition-colors duration-200 ${
-              isDownVoted ? "text-red-600" : "text-red-500 hover:text-red-600"
-            }`}
-            aria-label="Downvote"
+          <div
+            className={`flex gap-0.5 items-center rounded-lg px-2 py-1 transition-colors duration-200
+    ${
+      isDownVoted
+        ? "bg-red-500 text-white"
+        : "bg-transparent text-red-500 hover:text-red-600"
+    }`}
           >
-            {isDownVoted ? (
-              <TbArrowBigUpFilled size={20} className="rotate-180" />
-            ) : (
-              <TbArrowBigUp size={20} className="rotate-180" />
-            )}
-          </button>
+            <button
+              onClick={() => handleVote("down")}
+              className="flex items-center gap-1 cursor-pointer"
+              aria-label="Downvote"
+            >
+              {isDownVoted ? (
+                <TbArrowBigUpFilled size={20} className="rotate-180" />
+              ) : (
+                <TbArrowBigUp size={20} className="rotate-180" />
+              )}
+            </button>
+            <span className="font-semibold">{downVote}</span>
+          </div>
+        </div>
+        <div>
+          <span className="font-semibold">Votes: {score}</span>
         </div>
         <div className="flex items-center gap-1">
           <TiMessages size={16} />

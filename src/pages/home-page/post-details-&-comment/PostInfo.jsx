@@ -60,6 +60,13 @@ const PostInfo = ({ post }) => {
     toast.success("Link copied to clipboard!");
   };
 
+    const handleScrollToCommentSec = () => {
+    const section = document.getElementById("comment-section");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <div className="bg-slate-800 rounded-xl p-6 max-w-3xl mx-auto text-white space-y-4 shadow-md">
@@ -130,7 +137,7 @@ const PostInfo = ({ post }) => {
             </div>
 
             {/* Comments count */}
-            <div className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg">
+            <div onClick={handleScrollToCommentSec} className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg">
               <FaCommentAlt />
               <span>{isLoading ? "..." : comments.length}</span>
             </div>
