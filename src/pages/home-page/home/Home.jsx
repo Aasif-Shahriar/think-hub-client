@@ -7,14 +7,18 @@ import Announcements from "../announcements/Announcements";
 const Home = () => {
   const [searchTag, setSearchTag] = useState("");
 
+  const isSearching = searchTag.trim() !== "";
+
   return (
     <div>
       {/* banner */}
       <Banner searchTag={searchTag} setSearchTag={setSearchTag} />
-      {/* popular tags  section */}
-      <PopularTags setSearchTag={setSearchTag} />
-      {/* announcements */}
-      <Announcements />
+      {!isSearching && (
+        <>
+          <PopularTags setSearchTag={setSearchTag} />
+          <Announcements />
+        </>
+      )}
       {/* latest discussion */}
       <LatestDiscussions searchTag={searchTag} />
       <title>Home | ThinkHub</title>
