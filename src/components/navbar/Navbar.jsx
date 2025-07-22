@@ -59,6 +59,14 @@ const Navbar = () => {
           >
             Membership
           </NavLink>
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              isActive ? "text-blue-400" : "hover:text-blue-400"
+            }
+          >
+            Dashboard
+          </NavLink>
         </div>
 
         {/* Right side */}
