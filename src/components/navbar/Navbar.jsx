@@ -134,7 +134,7 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(false)}
             className={({ isActive }) =>
               `block px-3 py-2 rounded ${
-                isActive ? "bg-blue-600" : "hover:bg-slate-800"
+                isActive ? "text-blue-600" : "hover:bg-slate-800"
               }`
             }
           >
@@ -146,7 +146,7 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(false)}
             className={({ isActive }) =>
               `block px-3 py-2 rounded ${
-                isActive ? "bg-blue-600" : "hover:bg-slate-800"
+                isActive ? "text-blue-600" : "hover:bg-slate-800"
               }`
             }
           >
