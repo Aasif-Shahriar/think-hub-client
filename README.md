@@ -2,7 +2,7 @@
 
 ## 🚀 Live Site
 
-🔗 [https://forumify.vercel.app](https://forumify.vercel.app)
+🔗 https://think-hub.netlify.app/
 
 ---
 
