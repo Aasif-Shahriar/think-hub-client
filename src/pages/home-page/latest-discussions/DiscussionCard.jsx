@@ -61,7 +61,7 @@ const DiscussionCard = ({ post }) => {
         <img
           src={authorImage}
           alt={authorName}
-          className="w-10 h-10 rounded-full"
+          className="w-10 h-10 object-cover rounded-full"
         />
         <div>
           <p className="font-medium">{authorName}</p>

@@ -75,7 +75,7 @@ const PostInfo = ({ post }) => {
           <img
             src={authorImage}
             alt={authorName}
-            className="w-10 h-10 rounded-full border-2 border-white"
+            className="w-10 h-10 rounded-full object-cover border-2 border-white"
           />
           <div>
             <h3 className="font-semibold">{authorName}</h3>
