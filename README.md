@@ -1,14 +1,16 @@
 # 🗨️ Thinkhub - A Modern Developer Forum
 
-## 🚀 Live Site
-
-🔗 https://think-hub.netlify.app/
-
 ---
 
 ## 📖 Project Overview
 
 **ThinkHub** is a full-stack, interactive developer forum built with the **MERN Stack** (MongoDB, Express.js, React, Node.js) and **Firebase** for authentication and user management. It allows users to share posts, comment, vote, and interact through a clean, responsive interface — all while maintaining a secure and scalable admin panel for moderation and control.
+
+---
+
+## 🚀 Live Site
+
+🔗 https://think-hub.netlify.app/
 
 ---
 
