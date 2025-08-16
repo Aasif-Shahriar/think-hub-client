@@ -229,7 +229,6 @@ const AddPost = () => {
         </form>
       </div>
       <title>Add Post | ThinkHub</title>
-
     </div>
   );
 };

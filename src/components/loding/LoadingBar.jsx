@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import loading from "../../../public/Ripple loading animation.json";
+import loading from "../../assets/lotties/Ripple loading animation.json";
 
 const LoadingBar = () => {
   return (

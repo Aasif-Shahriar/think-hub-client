@@ -21,7 +21,7 @@ const Announcements = () => {
   return (
     <section
       id="announcement"
-      className="max-w-[1440px] mx-auto px-4 py-6 bg-slate-900 text-white rounded-md shadow-md my-6"
+      className="max-w-[1560px] mx-auto px-4 py-6 bg-white dark:bg-slate-900 text-gray-900 dark:text-white rounded-md shadow-md my-6 transition-colors duration-300"
       data-aos="fade-up"
     >
       <div
@@ -30,7 +30,7 @@ const Announcements = () => {
       >
         <h3 className="text-lg font-semibold">📢 Announcements</h3>
 
-        <p className="bg-blue-500 px-2 py-1 rounded-full text-xs font-medium">
+        <p className="bg-blue-500 dark:bg-blue-600 px-2 py-1 rounded-full text-xs font-medium text-white">
           {data.length} new
         </p>
       </div>

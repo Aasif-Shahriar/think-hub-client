@@ -23,7 +23,9 @@ const DashboardHome = () => {
       {/* Quick Actions */}
       <div className="grid md:grid-cols-3 gap-4">
         <Link
-          to={role === 'admin'?'/dashboard/admin-profile':'/dashboard/profile'}
+          to={
+            role === "admin" ? "/dashboard/admin-profile" : "/dashboard/profile"
+          }
           className="bg-slate-800 p-4 rounded-lg hover:bg-slate-700 transition"
         >
           <h3 className="text-lg font-semibold mb-1">View Profile</h3>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router"; 
+import { Link } from "react-router";
 import Swal from "sweetalert2";
 import {
   FaArrowUp,
@@ -173,7 +173,9 @@ const MyPosts = () => {
                 </button>
               ))}
               <button
-                onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setPage((prev) => Math.min(prev + 1, totalPages))
+                }
                 disabled={page === totalPages}
                 className={`px-3 py-1 rounded cursor-pointer ${
                   page === totalPages

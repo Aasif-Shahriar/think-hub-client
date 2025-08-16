@@ -1,14 +1,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default;
+  themes: false;
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 body {
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
 }
 
-a.active {
-  @apply text-blue-500;
+@theme {
+  /* Light theme colors */
+  --color-light-bg: #ffffff;
+  --color-light-text: #1d4ed8; /* Tailwind blue-700 */
+  --color-light-btn: #2563eb; /* Tailwind blue-600 */
+
+  /* Dark theme colors */
+  --color-dark-bg: #0f172a; /* slate-900 */
+  --color-dark-text: #ffea00; /* your preferred yellow */
+  --color-dark-btn: #ffea00; /* match text */
 }

@@ -38,7 +38,7 @@ const PostInfo = ({ post }) => {
     try {
       await axiosSecure.patch(`/posts/${_id}/vote`, { voteType: type });
       toast.success(`Voted ${type === "up" ? "👍 Upvote" : "👎 Downvote"}`);
-      queryClient.invalidateQueries(["post", _id]); 
+      queryClient.invalidateQueries(["post", _id]);
     } catch (err) {
       toast.error(err.response?.data?.error || "Vote failed");
     }
@@ -60,7 +60,7 @@ const PostInfo = ({ post }) => {
     toast.success("Link copied to clipboard!");
   };
 
-    const handleScrollToCommentSec = () => {
+  const handleScrollToCommentSec = () => {
     const section = document.getElementById("comment-section");
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
@@ -69,17 +69,19 @@ const PostInfo = ({ post }) => {
 
   return (
     <>
-      <div className="bg-slate-800 rounded-xl p-6 max-w-3xl mx-auto text-white space-y-4 shadow-md">
+      <div className="bg-gray-100 dark:bg-slate-800 rounded-xl p-6 max-w-3xl mx-auto text-gray-900 dark:text-white space-y-4 shadow-md transition-colors duration-300">
         {/* Author and Time */}
         <div className="flex items-center gap-4">
           <img
             src={authorImage}
             alt={authorName}
-            className="w-10 h-10 rounded-full object-cover border-2 border-white"
+            className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 dark:border-white"
           />
           <div>
             <h3 className="font-semibold">{authorName}</h3>
-            <p className="text-sm text-gray-300">{postTime}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-300">
+              {postTime}
+            </p>
           </div>
         </div>
 
@@ -91,7 +93,7 @@ const PostInfo = ({ post }) => {
           {tags?.map((tag, index) => (
             <span
               key={index}
-              className="bg-blue-200 text-blue-800 font-medium px-3 py-1 rounded-full text-sm flex items-center gap-1"
+              className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 font-medium px-3 py-1 rounded-full text-sm flex items-center gap-1"
             >
               {tag}
             </span>
@@ -99,37 +101,37 @@ const PostInfo = ({ post }) => {
         </div>
 
         {/* Description */}
-        <p className="text-gray-200 leading-relaxed">{description}</p>
+        <p className="text-gray-700 dark:text-gray-200 leading-relaxed">
+          {description}
+        </p>
 
-        <hr className="border-gray-600" />
+        <hr className="border-gray-300 dark:border-gray-600" />
 
         {/* Reactions */}
         <div className="flex flex-wrap pt-3 items-center justify-between gap-2 text-sm">
           <div className="flex items-center gap-6">
-            <div className="flex items-center space-x-2 select-none px-2 py-1 rounded-lg bg-slate-700">
+            <div className="flex items-center space-x-2 select-none px-2 py-1 rounded-lg bg-gray-200 dark:bg-slate-700 transition-colors duration-300">
               <button
                 onClick={() => handleVote("up")}
                 aria-label="Upvote"
                 className={`cursor-pointer text-xl transition-colors duration-200 ${
                   isUpVoted
-                    ? "text-green-400"
-                    : "text-gray-400 hover:text-green-300"
+                    ? "text-green-500"
+                    : "text-gray-500 dark:text-gray-300 hover:text-green-400"
                 }`}
               >
                 <TbArrowBigUpFilled />
               </button>
-
-              <span className="font-bold text-white px-2">
+              <span className="font-bold text-gray-900 dark:text-white px-2">
                 {upVote - downVote}
               </span>
-
               <button
                 onClick={() => handleVote("down")}
                 aria-label="Downvote"
                 className={`cursor-pointer text-xl transition-colors duration-200 ${
                   isDownVoted
-                    ? "text-red-400"
-                    : "text-gray-400 hover:text-red-300"
+                    ? "text-red-500"
+                    : "text-gray-500 dark:text-gray-300 hover:text-red-400"
                 }`}
               >
                 <TbArrowBigDownFilled />
@@ -137,7 +139,10 @@ const PostInfo = ({ post }) => {
             </div>
 
             {/* Comments count */}
-            <div onClick={handleScrollToCommentSec} className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg">
+            <div
+              onClick={handleScrollToCommentSec}
+              className="flex items-center gap-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900 hover:text-blue-500 dark:hover:text-blue-300 px-2 py-1 text-gray-500 dark:text-gray-300 transition-colors duration-200 rounded-lg"
+            >
               <FaCommentAlt />
               <span>{isLoading ? "..." : comments.length}</span>
             </div>
@@ -146,7 +151,7 @@ const PostInfo = ({ post }) => {
           {/* Share Button */}
           <label
             htmlFor="share_modal"
-            className="flex items-center gap-1 cursor-pointer hover:bg-blue-200 hover:text-blue-500 px-2 py-1 text-gray-400 transition-colors duration-200 rounded-lg"
+            className="flex items-center gap-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900 hover:text-blue-500 dark:hover:text-blue-300 px-2 py-1 text-gray-500 dark:text-gray-300 transition-colors duration-200 rounded-lg"
           >
             <FaShareAlt />
             <span>Share</span>
@@ -156,9 +161,9 @@ const PostInfo = ({ post }) => {
         {/* Share Modal */}
         <input type="checkbox" id="share_modal" className="modal-toggle" />
         <div className="modal sm:modal-middle text-black">
-          <div className="modal-box bg-white p-6 rounded-md w-80">
+          <div className="modal-box bg-white dark:bg-slate-800 p-6 rounded-md w-80 transition-colors duration-300">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="font-semibold text-lg text-slate-800">
+              <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
                 Share Post
               </h3>
               <label
@@ -172,30 +177,30 @@ const PostInfo = ({ post }) => {
             <div className="p-2">
               <FacebookShareButton
                 url={postUrl}
-                className="flex items-center gap-3 w-full p-2 hover:bg-blue-50 rounded-md mb-4"
+                className="flex items-center gap-3 w-full p-2 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-md mb-4 transition-colors duration-200"
               >
                 <FaFacebook className="text-blue-600 text-xl" />
-                <span className="text-base font-medium text-slate-700">
+                <span className="text-base font-medium text-gray-900 dark:text-white">
                   Share on Facebook
                 </span>
               </FacebookShareButton>
 
               <WhatsappShareButton
                 url={postUrl}
-                className="flex items-center gap-3 w-full p-2 hover:bg-green-50 rounded-md mb-2"
+                className="flex items-center gap-3 w-full p-2 hover:bg-green-50 dark:hover:bg-green-900 rounded-md mb-2 transition-colors duration-200"
               >
                 <FaWhatsapp className="text-green-500 text-xl" />
-                <span className="text-base font-medium text-slate-700">
+                <span className="text-base font-medium text-gray-900 dark:text-white">
                   Share on WhatsApp
                 </span>
               </WhatsappShareButton>
 
               <button
                 onClick={handleCopyLink}
-                className="flex items-center gap-3 w-full p-2 hover:bg-gray-100 rounded-md"
+                className="flex items-center gap-3 w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors duration-200"
               >
-                <FaCopy className="text-gray-600 text-xl" />
-                <span className="text-base font-medium text-slate-700">
+                <FaCopy className="text-gray-600 dark:text-gray-300 text-xl" />
+                <span className="text-base font-medium text-gray-900 dark:text-white">
                   Copy Link
                 </span>
               </button>

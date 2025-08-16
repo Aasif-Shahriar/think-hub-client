@@ -38,8 +38,11 @@ const PopularTags = ({ setSearchTag }) => {
   if (isError) return <p className="text-red-500">Failed to load tags</p>;
 
   return (
-    <section className="my-10 max-w-[1440px] mx-auto px-4" data-aos="fade-up">
-      <h3 className="text-xl font-bold text-white mb-3" data-aos="fade-left">
+    <section className="my-10 max-w-[1560px] mx-auto px-4" data-aos="fade-up">
+      <h3
+        className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3"
+        data-aos="fade-left"
+      >
         🔥 Popular Tags
       </h3>
 
@@ -47,13 +50,20 @@ const PopularTags = ({ setSearchTag }) => {
         {tags.map((tag) => {
           const tagName = tag._id.toLowerCase();
           const displayName = tagName.toUpperCase();
-          const icon = tagIcons[tagName] || <FaTag className="text-blue-500" />;
+          const icon = tagIcons[tagName] || (
+            <FaTag className="text-blue-500 dark:text-blue-400" />
+          );
 
           return (
             <SwiperSlide key={tag._id} style={{ width: "auto" }}>
               <span
                 onClick={() => setSearchTag(tagName)}
-                className="flex items-center gap-1 bg-blue-100 hover:bg-blue-200 transition-colors duration-200 cursor-pointer text-blue-500 px-3 py-2 rounded-full text-sm font-semibold"
+                className="flex items-center gap-1 
+              bg-gray-100 dark:bg-gray-800 
+              hover:bg-gray-200 dark:hover:bg-gray-700 
+              transition-colors duration-200 cursor-pointer 
+              text-gray-800 dark:text-gray-200 
+              px-3 py-2 rounded-full text-sm font-semibold"
               >
                 {icon}
                 {displayName}

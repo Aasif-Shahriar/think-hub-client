@@ -66,7 +66,12 @@ const CommentManagement = () => {
     <div className="py-8">
       <title>Manage Comments | ThinkHub</title>
       <h2 className="text-3xl font-bold text-white mb-6">Comments</h2>
-      <button className="bg-blue-500 px-3 py-1 font-medium cursor-pointer mb-4 rounded-lg" onClick={() => navigate(-1)}>Back</button>
+      <button
+        className="bg-blue-500 px-3 py-1 font-medium cursor-pointer mb-4 rounded-lg"
+        onClick={() => navigate(-1)}
+      >
+        Back
+      </button>
 
       {comments.length === 0 ? (
         <p className="text-gray-400">No comments found on this post.</p>

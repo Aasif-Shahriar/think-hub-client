@@ -55,7 +55,7 @@ const DiscussionCard = ({ post }) => {
   });
 
   return (
-    <div className="rounded-xl bg-slate-800 text-white p-5 shadow-md hover:shadow-lg transition-shadow duration-200">
+    <div className="rounded-xl bg-gray-100 dark:bg-slate-800 text-gray-900 dark:text-white p-5 shadow-md hover:shadow-lg transition-shadow duration-200">
       {/* Author Info */}
       <div className="flex items-center gap-3 mb-3">
         <img
@@ -64,15 +64,19 @@ const DiscussionCard = ({ post }) => {
           className="w-10 h-10 object-cover rounded-full"
         />
         <div>
-          <p className="font-medium">{authorName}</p>
-          <p className="text-sm text-gray-400">{moment(createdAt).fromNow()}</p>
+          <p className="font-medium text-gray-900 dark:text-white">
+            {authorName}
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {moment(createdAt).fromNow()}
+          </p>
         </div>
       </div>
 
       {/* Title */}
       <Link
         to={`/posts/${_id}`}
-        className="block text-xl font-bold text-white hover:text-blue-500 transition-colors duration-150 mb-3"
+        className="block text-xl font-bold text-gray-900 dark:text-white hover:text-blue-500 transition-colors duration-150 mb-3"
       >
         {title}
       </Link>
@@ -82,7 +86,7 @@ const DiscussionCard = ({ post }) => {
         {tags?.map((tag, i) => (
           <span
             key={i}
-            className="bg-blue-100 text-blue-800 px-2 py-1 text-xs rounded-full"
+            className="bg-blue-100 text-blue-800 dark:text-gray-900 px-2 py-1 text-xs rounded-full transition-colors duration-200"
           >
             {tag}
           </span>
@@ -90,15 +94,15 @@ const DiscussionCard = ({ post }) => {
       </div>
 
       {/* Votes & Comments */}
-      <div className="flex justify-between text-sm text-gray-300 items-center">
-        <div className="flex gap-0.5 items-center">
+      <div className="flex justify-between text-sm items-center">
+        <div className="flex gap-1 items-center">
+          {/* Upvote */}
           <div
-            className={`flex gap-0.5 items-center rounded-lg px-2 py-1 transition-colors duration-200
-    ${
-      isUpVoted
-        ? "bg-green-500 text-white"
-        : "bg-transparent text-green-500 hover:text-green-600"
-    }`}
+            className={`flex gap-1 items-center rounded-lg px-2 py-1 transition-colors duration-200 ${
+              isUpVoted
+                ? "bg-green-500 text-white"
+                : "bg-transparent text-green-500 hover:text-green-600"
+            }`}
           >
             <button
               onClick={() => handleVote("up")}
@@ -114,13 +118,13 @@ const DiscussionCard = ({ post }) => {
             <span className="font-semibold">{upVote}</span>
           </div>
 
+          {/* Downvote */}
           <div
-            className={`flex gap-0.5 items-center rounded-lg px-2 py-1 transition-colors duration-200
-    ${
-      isDownVoted
-        ? "bg-red-500 text-white"
-        : "bg-transparent text-red-500 hover:text-red-600"
-    }`}
+            className={`flex gap-1 items-center rounded-lg px-2 py-1 transition-colors duration-200 ${
+              isDownVoted
+                ? "bg-red-500 text-white"
+                : "bg-transparent text-red-500 hover:text-red-600"
+            }`}
           >
             <button
               onClick={() => handleVote("down")}
@@ -136,9 +140,13 @@ const DiscussionCard = ({ post }) => {
             <span className="font-semibold">{downVote}</span>
           </div>
         </div>
+
+        {/* Total Votes */}
         <div>
           <span className="font-semibold">Votes: {score}</span>
         </div>
+
+        {/* Comments */}
         <div className="flex items-center gap-1">
           <TiMessages size={16} />
           <span>{isLoading ? "..." : comments.length}</span>

@@ -31,11 +31,16 @@ const PostDetails = () => {
 
   return (
     <>
-      <div className="bg-slate-900 min-h-[calc(100vh-64px)] text-white px-4 py-8">
+      <div className="bg-gray-100 dark:bg-slate-900 min-h-[calc(100vh-16rem)] text-gray-900 dark:text-white px-4 py-8 transition-colors duration-300">
+        {/* Post Info */}
         <PostInfo post={post} />
-        <section id="comment-section">
+
+        {/* Comments Section */}
+        <section id="comment-section" className="mt-8">
           <CommentsSection postId={id} />
         </section>
+
+        {/* Page Title */}
         <title>Post Details | ThinkHub</title>
       </div>
     </>

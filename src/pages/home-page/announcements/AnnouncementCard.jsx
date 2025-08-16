@@ -12,22 +12,24 @@ export const AnnouncementCard = ({
   const isLong = description.length > 180;
 
   return (
-    <li className="bg-slate-800 p-4 rounded-md flex gap-4 items-start">
+    <li className="bg-gray-100 dark:bg-slate-800 p-4 rounded-md flex gap-4 items-start transition-colors duration-300">
       <img
         src={authorImage}
         alt={authorName}
-        className="w-12 h-12 rounded-full object-cover mt-1 bg-blue-100 hidden md:block"
+        className="w-12 h-12 rounded-full object-cover mt-1 bg-blue-100 dark:bg-blue-200 hidden md:block"
       />
       <div className="flex-1">
         <div className="flex flex-col md:flex-row md:items-center justify-between my-2">
-          <h4 className="font-semibold">{title}</h4>
-          <p className="text-sm font-semibold text-gray-400">
+          <h4 className="font-semibold text-gray-900 dark:text-white">
+            {title}
+          </h4>
+          <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">
             {moment(createdAt).fromNow()}
           </p>
         </div>
 
         <p
-          className={`text-sm text-gray-400 ${
+          className={`text-sm text-gray-700 dark:text-gray-300 ${
             !expanded && isLong ? "line-clamp-2" : ""
           }`}
         >
@@ -36,14 +38,14 @@ export const AnnouncementCard = ({
 
         {isLong && (
           <button
-            className="text-blue-400 text-sm mt-1 hover:underline cursor-pointer"
+            className="text-blue-500 dark:text-blue-400 text-sm mt-1 hover:underline cursor-pointer"
             onClick={() => setExpanded(!expanded)}
           >
             {expanded ? "Show Less" : "Read More"}
           </button>
         )}
 
-        <small className="italic text-gray-500 block mt-1">
+        <small className="italic text-gray-500 dark:text-gray-400 block mt-1">
           — {authorName}
         </small>
       </div>

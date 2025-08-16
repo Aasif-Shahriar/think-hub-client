@@ -96,16 +96,16 @@ const MembershipPage = () => {
         data-aos="fade-down"
         data-aos-delay="100"
       >
-        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
           Become a{" "}
-          <span className="text-yellow-400">
+          <span className="text-yellow-500 dark:text-yellow-400">
             ThinkHub Gold <br /> Member
           </span>
         </h1>
-        <p className="text-gray-400 text-base sm:text-lg md:text-xl lg:text-2xl font-semibold my-3">
+        <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg md:text-xl lg:text-2xl font-semibold my-3">
           Post without limits. Stand out with the Gold Badge 🥇
         </p>
-        <span className="inline-block mt-4 bg-yellow-500/10 text-yellow-400 px-3 py-2 rounded-full font-semibold border border-yellow-500/20 text-sm sm:text-base">
+        <span className="inline-block mt-4 bg-yellow-100 dark:bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 px-3 py-2 rounded-full font-semibold border border-yellow-300 dark:border-yellow-500/20 text-sm sm:text-base">
           🥇 Elite Community Access
         </span>
       </div>
@@ -114,37 +114,37 @@ const MembershipPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Left Card - Payment Section */}
         <div
-          className="md:col-span-2 bg-slate-800 text-white rounded-xl p-6 border-l-4 border-yellow-400 shadow-[0_0_10px_#facc15]"
+          className="md:col-span-2 bg-white dark:bg-slate-800 text-gray-800 dark:text-white rounded-xl p-6 border-l-4 border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.3)] dark:shadow-[0_0_10px_#facc15]"
           data-aos="fade-right"
           data-aos-delay="200"
         >
           <div className="flex items-center justify-between flex-wrap gap-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
               Gold Membership
             </h2>
-            <p className="text-yellow-400 text-2xl sm:text-3xl font-bold">
+            <p className="text-yellow-500 dark:text-yellow-400 text-2xl sm:text-3xl font-bold">
               $10
             </p>
           </div>
 
           <ul className="mt-5 space-y-4 text-sm sm:text-base">
-            <li className="flex items-center gap-2">
+            <li className="flex items-center gap-2 text-gray-700 dark:text-gray-100">
               <FaCheckCircle className="text-green-500" /> Post more than 5
               posts per day
             </li>
-            <li className="flex items-center gap-2">
+            <li className="flex items-center gap-2 text-gray-700 dark:text-gray-100">
               <FaCheckCircle className="text-green-500" /> Earn exclusive Gold
               badge 🥇
             </li>
-            <li className="flex items-center gap-2">
+            <li className="flex items-center gap-2 text-gray-700 dark:text-gray-100">
               <FaCheckCircle className="text-green-500" /> Priority visibility
               in forums
             </li>
-            <li className="flex items-center gap-2">
+            <li className="flex items-center gap-2 text-gray-700 dark:text-gray-100">
               <FaCheckCircle className="text-green-500" /> Access to premium
               developer resources
             </li>
-            <li className="flex items-center gap-2">
+            <li className="flex items-center gap-2 text-gray-700 dark:text-gray-100">
               <FaCheckCircle className="text-green-500" /> Direct messaging with
               other Gold members
             </li>
@@ -155,13 +155,11 @@ const MembershipPage = () => {
             <button
               onClick={handlePayment}
               disabled={shouldDisablePayment}
-              className={`mt-6 w-full font-bold py-3 rounded-xl transition cursor-pointer
-                ${
-                  shouldDisablePayment
-                    ? "bg-gray-500 cursor-not-allowed"
-                    : "bg-blue-500 hover:bg-blue-600 text-white"
-                }
-              `}
+              className={`mt-6 w-full font-bold py-3 rounded-xl transition-colors duration-200 ${
+                shouldDisablePayment
+                  ? "bg-gray-300 dark:bg-gray-500 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600 text-white"
+              }`}
             >
               {isGoldMember
                 ? "You're Already a Gold Member 🥇"
@@ -176,31 +174,31 @@ const MembershipPage = () => {
           data-aos="fade-left"
           data-aos-delay="300"
         >
-          <h3 className="text-lg font-semibold text-gray-200 text-center md:text-left">
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 text-center md:text-left">
             Membership Badges
           </h3>
 
-          <div className="bg-slate-800 border-l-4 border-orange-400 p-4 rounded shadow">
-            <h4 className="text-orange-500 text-xl font-bold text-center">
+          <div className="bg-white dark:bg-slate-800 border-l-4 border-orange-400 p-4 rounded shadow">
+            <h4 className="text-orange-500 dark:text-orange-400 text-xl font-bold text-center">
               🥉 Bronze Member
             </h4>
-            <p className="text-gray-300 text-center text-sm sm:text-base">
+            <p className="text-gray-600 dark:text-gray-300 text-center text-sm sm:text-base">
               Free for all users
             </p>
-            <ul className="mt-2 list-disc list-inside text-sm text-gray-100">
+            <ul className="mt-2 list-disc list-inside text-sm text-gray-700 dark:text-gray-100">
               <li>5 posts per day</li>
               <li>Basic forum access</li>
             </ul>
           </div>
 
-          <div className="bg-slate-800 border-2 border-yellow-300 p-4 rounded-lg shadow-[0_0_10px_#facc15]">
-            <h4 className="text-yellow-600 text-xl font-bold text-center">
+          <div className="bg-white dark:bg-slate-800 border-2 border-yellow-300 p-4 rounded-lg shadow-[0_0_10px_rgba(250,204,21,0.3)] dark:shadow-[0_0_10px_#facc15]">
+            <h4 className="text-yellow-500 dark:text-yellow-400 text-xl font-bold text-center">
               🥇 Gold Member
             </h4>
-            <p className="text-gray-300 text-center text-sm sm:text-base">
+            <p className="text-gray-600 dark:text-gray-300 text-center text-sm sm:text-base">
               Premium membership
             </p>
-            <ul className="mt-2 list-disc list-inside text-sm text-white">
+            <ul className="mt-2 list-disc list-inside text-sm text-gray-700 dark:text-white">
               <li>Unlimited posts</li>
               <li>Priority visibility</li>
               <li>Premium resources</li>

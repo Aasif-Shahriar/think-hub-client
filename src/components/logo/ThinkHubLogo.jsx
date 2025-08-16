@@ -4,7 +4,8 @@ import logo from "../../assets/images/Think.png";
 const ThinkHubLogo = () => {
   return (
     <section className="flex items-center gap-2">
-      <div className="w-8 h-8 bg-gray-700 rounded-md flex items-center justify-center">
+      {/* Logo background adapts to theme */}
+      <div className="w-8 h-8 bg-light-btn dark:bg-dark-btn rounded-md flex items-center justify-center">
         <img
           src={logo}
           alt="ThinkHub Logo"
@@ -12,9 +13,10 @@ const ThinkHubLogo = () => {
         />
       </div>
 
+      {/* Brand text */}
       <h1 className="text-xl font-bold select-none">
-        <span className="text-white">Think</span>
-        <span className="text-blue-500">Hub</span>
+        <span className="text-slate-800 dark:text-white">Think</span>
+        <span className="text-light-btn dark:text-dark-btn">Hub</span>
       </h1>
     </section>
   );

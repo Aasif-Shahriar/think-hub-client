@@ -36,24 +36,28 @@ const LatestDiscussions = ({ searchTag }) => {
   const totalPages = Math.ceil(totalPosts / limit);
 
   return (
-    <section className="py-10 max-w-[1440px] mx-auto px-4">
+    <section className="py-10 max-w-[1560px] mx-auto px-4">
       {/* Header */}
       <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
-        <h2 className="text-2xl text-gray-100 font-bold">Latest Discussions</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Latest Discussions
+        </h2>
 
         {searchTag && (
-          <p className="text-sm text-blue-400 italic">
+          <p className="text-sm text-blue-500 dark:text-blue-400 italic">
             Showing results for tag:{" "}
             <span className="font-medium">#{searchTag}</span>
           </p>
         )}
 
         <div className="flex items-center gap-2 justify-end">
-          <span className="text-sm text-gray-400">Sorted by:</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            Sorted by:
+          </span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-3 py-1.5 rounded-md bg-slate-800 text-white text-sm border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="px-3 py-1.5 rounded-md bg-gray-200 dark:bg-slate-800 text-gray-900 dark:text-white text-sm border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors duration-300"
           >
             <option value="recent">Recent</option>
             <option value="popular">Popular</option>
@@ -66,7 +70,7 @@ const LatestDiscussions = ({ searchTag }) => {
       ) : isError ? (
         <p className="text-red-500 text-center">Failed to load posts.</p>
       ) : posts.length === 0 ? (
-        <p className="text-center text-gray-400 mt-4">
+        <p className="text-center text-gray-500 dark:text-gray-400 mt-4">
           No posts found{searchTag ? ` for tag #${searchTag}` : ""}.
         </p>
       ) : (
@@ -86,7 +90,7 @@ const LatestDiscussions = ({ searchTag }) => {
           <button
             disabled={page === 1}
             onClick={() => setPage(page - 1)}
-            className={`p-2 rounded-full bg-slate-800 text-white hover:bg-blue-600 transition ${
+            className={`p-2 rounded-full bg-gray-800 dark:bg-slate-700 text-white hover:bg-blue-600 transition ${
               page === 1 ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -101,7 +105,7 @@ const LatestDiscussions = ({ searchTag }) => {
               className={`w-8 h-8 rounded text-sm transition ${
                 pg === page
                   ? "bg-blue-600 text-white font-bold"
-                  : "bg-slate-800 text-white hover:bg-slate-700"
+                  : "bg-gray-800 dark:bg-slate-700 text-white hover:bg-gray-700 dark:hover:bg-slate-600"
               }`}
             >
               {pg}
@@ -112,7 +116,7 @@ const LatestDiscussions = ({ searchTag }) => {
           <button
             disabled={page === totalPages}
             onClick={() => setPage(page + 1)}
-            className={`p-2 rounded-full bg-slate-800 text-white hover:bg-blue-600 transition ${
+            className={`p-2 rounded-full bg-gray-800 dark:bg-slate-700 text-white hover:bg-blue-600 transition ${
               page === totalPages ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >

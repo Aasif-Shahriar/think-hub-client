@@ -8,7 +8,8 @@ const NotFoundPage = () => {
       <FaBug className="text-yellow-400 text-9xl mb-6 animate-pulse" />
       <h1 className="text-6xl font-extrabold text-white mb-4">404</h1>
       <p className="text-gray-400 text-xl max-w-lg text-center mb-8">
-        No thoughts found here! The page you are looking for doesn’t exist or might have been deleted.
+        No thoughts found here! The page you are looking for doesn’t exist or
+        might have been deleted.
       </p>
       <Link
         to="/"
