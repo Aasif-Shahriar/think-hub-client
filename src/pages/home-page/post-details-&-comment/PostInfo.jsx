@@ -101,9 +101,14 @@ const PostInfo = ({ post }) => {
         </div>
 
         {/* Description */}
-        <p className="text-gray-700 dark:text-gray-200 leading-relaxed">
-          {description}
-        </p>
+        {description.split("\n\n").map((para, idx) => (
+          <p
+            key={idx}
+            className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed"
+          >
+            {para}
+          </p>
+        ))}
 
         <hr className="border-gray-300 dark:border-gray-600" />
 

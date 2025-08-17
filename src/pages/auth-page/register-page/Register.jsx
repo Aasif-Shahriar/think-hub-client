@@ -93,98 +93,120 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
-      <div className="max-w-6xl w-full bg-white rounded-lg shadow-md grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
-        {/* Left Section - Static content */}
-        <div className="bg-blue-600 text-white p-10 hidden lg:flex flex-col justify-center">
-          <h2 className="text-3xl font-bold mb-4">Welcome to ThinkHub</h2>
-          <p className="text-lg mb-6">
+    <div className="min-h-screen bg-slate-100 dark:bg-gray-700 flex items-center justify-center p-4 sm:p-6 transition-colors duration-300">
+      <div className="max-w-6xl w-full bg-white dark:bg-gray-800 rounded-xl shadow-2xl grid grid-cols-1 lg:grid-cols-2 overflow-hidden transition-colors duration-300">
+        {/* Left Section - Enhanced with Gradient and Animations */}
+        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-10 hidden lg:flex flex-col justify-center">
+          <h2 className="text-4xl font-bold mb-4 tracking-tight">
+            Welcome to ThinkHub
+          </h2>
+          <p className="text-lg mb-8 opacity-90">
             Join thousands of developers sharing knowledge, building
             connections, and growing together.
           </p>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-blue-500 p-4 rounded text-center">
+          <div className="grid grid-cols-2 gap-5">
+            <div className="bg-white/20 p-4 rounded-lg text-center backdrop-blur-sm transform hover:scale-105 transition-transform duration-300">
               👥 50K+ Members
             </div>
-            <div className="bg-blue-500 p-4 rounded text-center">
+            <div className="bg-white/20 p-4 rounded-lg text-center backdrop-blur-sm transform hover:scale-105 transition-transform duration-300">
               💬 Daily Discussions
             </div>
-            <div className="bg-blue-500 p-4 rounded text-center">
+            <div className="bg-white/20 p-4 rounded-lg text-center backdrop-blur-sm transform hover:scale-105 transition-transform duration-300">
               ✅ Code Reviews
             </div>
-            <div className="bg-blue-500 p-4 rounded text-center">
+            <div className="bg-white/20 p-4 rounded-lg text-center backdrop-blur-sm transform hover:scale-105 transition-transform duration-300">
               🏆 Achievements
             </div>
           </div>
         </div>
 
-        {/* Right Section - Register Form */}
-        <div className="md:p-8 lg:p-12 bg-base-200">
-          <div className="bg-white p-4 shadow-xl rounded">
-            <h2 className="text-2xl font-bold mb-2">Register for ThinkHub</h2>
-            <p className="mb-6 text-gray-500">Connect. Discuss. Grow.</p>
+        {/* Right Section - Refined Register Form */}
+        <div className="p-6 sm:p-8 md:p-12 bg-white dark:bg-gray-800">
+          <div className="bg-transparent">
+            <h2 className="text-3xl font-bold mb-2 text-gray-800 dark:text-gray-100">
+              Register for ThinkHub
+            </h2>
+            <p className="mb-8 text-gray-500 dark:text-gray-400">
+              Connect. Discuss. Grow.
+            </p>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              {/* Name Input */}
               <div>
-                <label className="block mb-1 font-medium">Name</label>
+                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Name
+                </label>
                 <input
                   type="text"
                   {...register("name", { required: true })}
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                   placeholder="Enter your name"
                 />
                 {errors.name && (
-                  <p className="text-red-500 text-sm">Name is required</p>
+                  <p className="text-red-500 text-xs mt-1">Name is required</p>
                 )}
               </div>
+
+              {/* Photo Input */}
               <div>
-                <label className="block mb-1 font-medium">Photo</label>
+                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Photo
+                </label>
                 <input
                   type="file"
                   {...register("photo", { required: true })}
-                  className="file-input file-input-bordered w-full"
+                  className="file-input file-input-bordered w-full bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-400 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-600 dark:file:text-gray-200 dark:hover:file:bg-gray-500 transition"
                 />
                 {errors.photo && (
-                  <p className="text-red-500 text-sm">Photo is required</p>
+                  <p className="text-red-500 text-xs mt-1">Photo is required</p>
                 )}
               </div>
+
+              {/* Email Input */}
               <div>
-                <label className="block mb-1 font-medium">Email</label>
+                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Email
+                </label>
                 <input
                   type="email"
                   {...register("email", { required: true })}
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                   placeholder="Enter your email"
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm">Email is required</p>
+                  <p className="text-red-500 text-xs mt-1">Email is required</p>
                 )}
               </div>
-              {/* Password */}
+
+              {/* Password Input */}
               <div>
-                <label className="block mb-1 font-medium">Password</label>
+                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Password
+                </label>
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
                     {...register("password", { required: true })}
-                    className="input input-bordered w-full pr-10"
+                    className="input input-bordered w-full pr-10 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     placeholder="Enter your password"
                   />
                   <span
-                    className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                    className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer transition-colors"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </span>
                 </div>
                 {errors.password && (
-                  <p className="text-red-500 text-sm">Password is required</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    Password is required
+                  </p>
                 )}
               </div>
 
-              {/* Confirm Password */}
+              {/* Confirm Password Input */}
               <div>
-                <label className="block mb-1 font-medium">
+                <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                   Confirm Password
                 </label>
                 <div className="relative">
@@ -194,31 +216,36 @@ const Register = () => {
                       validate: (value) =>
                         value === watch("password") || "Passwords do not match",
                     })}
-                    className="input input-bordered w-full pr-10"
+                    className="input input-bordered w-full pr-10 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     placeholder="Confirm your password"
                   />
                   <span
-                    className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                    className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer transition-colors"
                     onClick={() => setShowConfirm(!showConfirm)}
                   >
                     {showConfirm ? <FaEyeSlash /> : <FaEye />}
                   </span>
                 </div>
                 {errors.confirm && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-xs mt-1">
                     {errors.confirm.message}
                   </p>
                 )}
               </div>
-              <button className="btn btn-primary w-full">
+
+              {/* Submit Button */}
+              <button className="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800 transition-all duration-300 ease-in-out disabled:bg-blue-400 disabled:cursor-not-allowed">
                 {loading ? "Registering..." : "Register"}
               </button>
             </form>
 
-            <div className="text-center mt-4">
-              <p>
+            <div className="text-center mt-6">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Already have an account?{" "}
-                <Link to="/join-us" className="text-blue-600 font-semibold">
+                <Link
+                  to="/join-us"
+                  className="text-blue-600 hover:underline dark:text-blue-400 font-semibold"
+                >
                   Login
                 </Link>
               </p>

@@ -72,30 +72,36 @@ const Navbar = () => {
           >
             Home
           </NavLink>
-          <NavLink
-            to="/membership"
-            className={({ isActive }) =>
-              `transition-colors duration-200 ${
-                isActive
-                  ? "text-blue-600 dark:text-yellow-400"
-                  : "hover:text-blue-500 dark:hover:text-yellow-300"
-              }`
-            }
-          >
-            Membership
-          </NavLink>
-          <NavLink
-            to="/dashboard"
-            className={({ isActive }) =>
-              `transition-colors duration-200 ${
-                isActive
-                  ? "text-blue-600 dark:text-yellow-400"
-                  : "hover:text-blue-500 dark:hover:text-yellow-300"
-              }`
-            }
-          >
-            Dashboard
-          </NavLink>
+          {/* Private links */}
+          {user && (
+            <>
+              {" "}
+              <NavLink
+                to="/membership"
+                className={({ isActive }) =>
+                  `transition-colors duration-200 ${
+                    isActive
+                      ? "text-blue-600 dark:text-yellow-400"
+                      : "hover:text-blue-500 dark:hover:text-yellow-300"
+                  }`
+                }
+              >
+                Membership
+              </NavLink>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  `transition-colors duration-200 ${
+                    isActive
+                      ? "text-blue-600 dark:text-yellow-400"
+                      : "hover:text-blue-500 dark:hover:text-yellow-300"
+                  }`
+                }
+              >
+                Dashboard
+              </NavLink>
+            </>
+          )}
         </div>
 
         {/* Right Side */}
@@ -203,30 +209,32 @@ const Navbar = () => {
             Home
           </NavLink>
 
-          {/* Membership */}
-          <NavLink
-            to="/membership"
-            onClick={() => setMobileMenuOpen(false)}
-            className={({ isActive }) =>
-              `block px-3 py-2 rounded ${
-                isActive
-                  ? "text-blue-600 dark:text-yellow-400"
-                  : "hover:bg-gray-100 dark:hover:bg-slate-800"
-              }`
-            }
-          >
-            Membership
-          </NavLink>
-
           {/* Dashboard (only shown when logged in) */}
           {user && (
-            <Link
-              to="/dashboard"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-slate-800"
-            >
-              Dashboard
-            </Link>
+            <>
+              {" "}
+              {/* Membership */}
+              <NavLink
+                to="/membership"
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded ${
+                    isActive
+                      ? "text-blue-600 dark:text-yellow-400"
+                      : "hover:bg-gray-100 dark:hover:bg-slate-800"
+                  }`
+                }
+              >
+                Membership
+              </NavLink>
+              <Link
+                to="/dashboard"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-slate-800"
+              >
+                Dashboard
+              </Link>
+            </>
           )}
 
           {/* Join Us/Logout */}

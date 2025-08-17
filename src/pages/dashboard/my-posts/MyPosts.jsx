@@ -8,13 +8,14 @@ import {
   FaComments,
   FaTrash,
   FaPlus,
+  FaEdit,
 } from "react-icons/fa";
 import moment from "moment";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useAuth } from "../../../hooks/useAuth";
 import LoadingBar from "../../../components/loding/LoadingBar";
 
-const POSTS_PER_PAGE = 3;
+const POSTS_PER_PAGE = 5;
 
 const MyPosts = () => {
   const axiosSecure = useAxiosSecure();
@@ -38,25 +39,41 @@ const MyPosts = () => {
 
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({
-      title: "Are you sure?",
-      text: "This post will be permanently deleted.",
+      title: "Delete Post?",
+      text: "This action cannot be undone. All comments will also be deleted.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+      background: "#1e293b",
+      color: "#fff",
     });
 
     if (confirm.isConfirmed) {
       try {
         const res = await axiosSecure.delete(`/posts/${id}`);
         if (res.data.deletedCount > 0) {
-          Swal.fire("Deleted!", "Your post has been deleted.", "success");
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your post has been deleted.",
+            icon: "success",
+            background: "#1e293b",
+            color: "#fff",
+          });
           refetch();
         }
       } catch (err) {
         console.error("Delete error:", err);
-        Swal.fire("Error", "Failed to delete post.", "error");
+        Swal.fire({
+          title: "Error",
+          text: "Failed to delete post.",
+          icon: "error",
+          background: "#1e293b",
+          color: "#fff",
+        });
       }
     }
   };
@@ -64,127 +81,284 @@ const MyPosts = () => {
   if (isLoading) return <LoadingBar />;
 
   return (
-    <div className="py-8 max-w-7xl mx-auto">
+    <div className="py-8 px-4 sm:px-6 max-w-7xl mx-auto">
       <title>My Posts | ThinkHub</title>
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
         <div>
-          <h2 className="text-3xl font-bold text-white mb-1">My Posts</h2>
-          <p className="text-sm text-gray-400 font-semibold">
-            You’ve created {totalPosts} post{totalPosts !== 1 && "s"}
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
+            My Posts
+          </h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
+            {totalPosts} post{totalPosts !== 1 ? "s" : ""} • {totalPages} page
+            {totalPages !== 1 ? "s" : ""}
           </p>
         </div>
         <Link
           to="/dashboard/add-post"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-medium flex items-center gap-2 px-4 py-2 rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium flex items-center gap-2 px-4 py-2.5 rounded-lg transition-colors"
         >
-          <FaPlus /> New Post
+          <FaPlus size={14} /> New Post
         </Link>
       </div>
 
       {posts.length === 0 ? (
-        <p className="text-gray-400">You haven’t posted anything yet.</p>
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-8 text-center border border-gray-200 dark:border-gray-700">
+          <div className="text-gray-400 dark:text-gray-500 text-5xl mb-4">
+            📝
+          </div>
+          <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
+            No Posts Yet
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            You haven't created any posts yet. Share your knowledge with the
+            community!
+          </p>
+          <Link
+            to="/dashboard/add-post"
+            className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded-lg transition-colors"
+          >
+            Create Your First Post
+          </Link>
+        </div>
       ) : (
-        <div className="w-full overflow-x-auto">
-          <table className="min-w-[640px] w-full text-left text-white text-sm sm:text-base">
-            <thead className="bg-slate-700 text-gray-200 uppercase text-xs">
-              <tr>
-                <th className="p-3">Title</th>
-                <th className="p-3">Votes</th>
-                <th className="p-3">Comments</th>
-                <th className="p-3">Delete</th>
-              </tr>
-            </thead>
-            <tbody className="bg-slate-800">
-              {posts.map((post) => (
-                <tr
-                  key={post._id}
-                  className="border-b border-slate-700 hover:bg-slate-700/50 transition"
-                >
-                  <td className="p-3">
-                    <div className="font-semibold text-gray-300">
-                      {post.title}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {moment(post.createdAt).fromNow()}
-                    </div>
-                  </td>
-                  <td className="p-3 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1 text-green-400">
-                        <FaArrowUp /> {post.upVote || 0}
-                      </span>
-                      <span className="flex items-center gap-1 text-red-400">
-                        <FaArrowDown /> {post.downVote || 0}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="p-3 whitespace-nowrap">
-                    <div className="text-gray-300 text-sm mb-1">
-                      {post.commentsCount || 0}{" "}
-                      {post.commentsCount === 1 ? "Comment" : "Comments"}
-                    </div>
-                    <Link
-                      to={`/dashboard/comments/${post._id}`}
-                      className="inline-flex items-center gap-2 text-blue-400 hover:underline text-xs"
-                    >
-                      <FaComments /> Manage
-                    </Link>
-                  </td>
-                  <td className="p-3 whitespace-nowrap">
-                    <button
-                      onClick={() => handleDelete(post._id)}
-                      className="text-red-500 bg-red-500/10 px-2 py-2 rounded-lg hover:bg-red-500/20 hover:text-red-600 cursor-pointer"
-                    >
-                      <FaTrash />
-                    </button>
-                  </td>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Title
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Votes
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Comments
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Actions
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                {posts.map((post) => (
+                  <tr
+                    key={post._id}
+                    className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-600">
+                          {post.authorImage ? (
+                            <img
+                              className="h-full w-full object-cover"
+                              src={post.authorImage}
+                              alt={post.authorName}
+                            />
+                          ) : (
+                            <div className="h-full w-full flex items-center justify-center text-gray-400">
+                              <FaUserCircle size={20} />
+                            </div>
+                          )}
+                        </div>
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">
+                            {post.title}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            {moment(post.createdAt).format("MMM D, YYYY")}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-4">
+                        <span className="inline-flex items-center gap-1 text-green-600 dark:text-green-400 text-sm">
+                          <FaArrowUp /> {post.upVote || 0}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-red-600 dark:text-red-400 text-sm">
+                          <FaArrowDown /> {post.downVote || 0}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm text-gray-900 dark:text-gray-200">
+                          {post.commentsCount || 0}
+                        </span>
+                        <Link
+                          to={`/posts/${post._id}`}
+                          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors flex items-center gap-1 text-sm"
+                        >
+                          <FaComments size={14} /> View
+                        </Link>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center gap-3">
+                        <Link
+                          to={`/dashboard/edit-post/${post._id}`}
+                          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                          title="Edit"
+                        >
+                          <FaEdit size={16} />
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(post._id)}
+                          className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20"
+                          title="Delete"
+                        >
+                          <FaTrash size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex justify-center mt-6 gap-2 flex-wrap">
-              <button
-                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                disabled={page === 1}
-                className={`px-3 py-1 rounded cursor-pointer ${
-                  page === 1
-                    ? "bg-slate-600 text-gray-400 cursor-not-allowed"
-                    : "bg-slate-700 text-gray-200 hover:bg-slate-600"
-                }`}
-              >
-                Prev
-              </button>
-              {Array.from({ length: totalPages }).map((_, index) => (
+            <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6">
+              <div className="flex-1 flex justify-between sm:hidden">
                 <button
-                  key={index}
-                  onClick={() => setPage(index + 1)}
-                  className={`px-3 py-1 rounded ${
-                    page === index + 1
-                      ? "bg-blue-600 text-white"
-                      : "bg-slate-700 text-gray-300 hover:bg-slate-600"
+                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={page === 1}
+                  className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
+                    page === 1
+                      ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
+                      : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
                   }`}
                 >
-                  {index + 1}
+                  Previous
                 </button>
-              ))}
-              <button
-                onClick={() =>
-                  setPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                disabled={page === totalPages}
-                className={`px-3 py-1 rounded cursor-pointer ${
-                  page === totalPages
-                    ? "bg-slate-600 text-gray-400 cursor-not-allowed"
-                    : "bg-slate-700 text-gray-200 hover:bg-slate-600"
-                }`}
-              >
-                Next
-              </button>
+                <button
+                  onClick={() =>
+                    setPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  disabled={page === totalPages}
+                  className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
+                    page === totalPages
+                      ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
+                      : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  }`}
+                >
+                  Next
+                </button>
+              </div>
+              <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm text-gray-700 dark:text-gray-300">
+                    Showing{" "}
+                    <span className="font-medium">
+                      {(page - 1) * POSTS_PER_PAGE + 1}
+                    </span>{" "}
+                    to{" "}
+                    <span className="font-medium">
+                      {Math.min(page * POSTS_PER_PAGE, totalPosts)}
+                    </span>{" "}
+                    of <span className="font-medium">{totalPosts}</span> posts
+                  </p>
+                </div>
+                <div>
+                  <nav
+                    className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                    aria-label="Pagination"
+                  >
+                    <button
+                      onClick={() => setPage(1)}
+                      disabled={page === 1}
+                      className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white dark:bg-gray-800 text-sm font-medium ${
+                        page === 1
+                          ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+                          : "text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                      }`}
+                    >
+                      <span className="sr-only">First</span>«
+                    </button>
+                    <button
+                      onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                      disabled={page === 1}
+                      className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white dark:bg-gray-800 text-sm font-medium ${
+                        page === 1
+                          ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+                          : "text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                      }`}
+                    >
+                      <span className="sr-only">Previous</span>‹
+                    </button>
+
+                    {Array.from({ length: Math.min(5, totalPages) }).map(
+                      (_, idx) => {
+                        let pageNum;
+                        if (totalPages <= 5) {
+                          pageNum = idx + 1;
+                        } else if (page <= 3) {
+                          pageNum = idx + 1;
+                        } else if (page >= totalPages - 2) {
+                          pageNum = totalPages - 4 + idx;
+                        } else {
+                          pageNum = page - 2 + idx;
+                        }
+
+                        return (
+                          <button
+                            key={pageNum}
+                            onClick={() => setPage(pageNum)}
+                            className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                              page === pageNum
+                                ? "z-10 bg-blue-50 dark:bg-blue-900/30 border-blue-500 text-blue-600 dark:text-blue-400"
+                                : "bg-white dark:bg-gray-800 border-gray-300 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                            }`}
+                          >
+                            {pageNum}
+                          </button>
+                        );
+                      }
+                    )}
+
+                    <button
+                      onClick={() =>
+                        setPage((prev) => Math.min(prev + 1, totalPages))
+                      }
+                      disabled={page === totalPages}
+                      className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white dark:bg-gray-800 text-sm font-medium ${
+                        page === totalPages
+                          ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+                          : "text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                      }`}
+                    >
+                      <span className="sr-only">Next</span>›
+                    </button>
+                    <button
+                      onClick={() => setPage(totalPages)}
+                      disabled={page === totalPages}
+                      className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white dark:bg-gray-800 text-sm font-medium ${
+                        page === totalPages
+                          ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+                          : "text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                      }`}
+                    >
+                      <span className="sr-only">Last</span>»
+                    </button>
+                  </nav>
+                </div>
+              </div>
             </div>
           )}
         </div>

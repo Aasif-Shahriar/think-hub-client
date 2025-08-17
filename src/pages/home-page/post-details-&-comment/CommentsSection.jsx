@@ -131,7 +131,7 @@ const CommentsSection = ({ postId }) => {
               return (
                 <div
                   key={c._id}
-                  className="bg-gray-200 dark:bg-slate-800 p-4 rounded-md flex gap-4 transition-colors duration-300"
+                  className="bg-gray-200 dark:bg-slate-800 p-4 rounded-md flex gap-4 transition-colors duration-300 border border-gray-300 dark:border-gray-600"
                 >
                   <img
                     src={c.userImage}

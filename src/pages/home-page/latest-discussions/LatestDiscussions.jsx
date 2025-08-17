@@ -35,10 +35,28 @@ const LatestDiscussions = ({ searchTag }) => {
   const totalPosts = postData.total || 0;
   const totalPages = Math.ceil(totalPosts / limit);
 
+  if (isLoading) {
+    return (
+      <div className="py-10 max-w-[1560px] mx-auto px-4">
+        <LoadingBar />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="py-10 max-w-[1560px] mx-auto px-4">
+        <p className="text-red-500 text-center">
+          Failed to load discussions. Please try again later.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <section className="py-10 max-w-[1560px] mx-auto px-4">
+    <section className="">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Latest Discussions
         </h2>
@@ -50,14 +68,14 @@ const LatestDiscussions = ({ searchTag }) => {
           </p>
         )}
 
-        <div className="flex items-center gap-2 justify-end">
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
             Sorted by:
           </span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-3 py-1.5 rounded-md bg-gray-200 dark:bg-slate-800 text-gray-900 dark:text-white text-sm border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors duration-300"
+            className="px-3 py-1.5 rounded-md bg-gray-200 dark:bg-slate-800 text-gray-900 dark:text-white text-sm border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors duration-300 min-w-[120px]"
           >
             <option value="recent">Recent</option>
             <option value="popular">Popular</option>
@@ -65,60 +83,57 @@ const LatestDiscussions = ({ searchTag }) => {
         </div>
       </div>
 
-      {isLoading ? (
-        <LoadingBar />
-      ) : isError ? (
-        <p className="text-red-500 text-center">Failed to load posts.</p>
-      ) : posts.length === 0 ? (
-        <p className="text-center text-gray-500 dark:text-gray-400 mt-4">
-          No posts found{searchTag ? ` for tag #${searchTag}` : ""}.
-        </p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Posts Grid */}
+      {posts.length > 0 ? (
+        <div className="flex flex-col gap-5">
           {posts.map((post, index) => (
             <div key={post._id} data-aos="fade-up" data-aos-delay={index * 100}>
               <DiscussionCard post={post} />
             </div>
           ))}
         </div>
+      ) : (
+        <div className="text-center py-16">
+          <p className="text-gray-500 dark:text-gray-400 text-lg">
+            {searchTag
+              ? `No discussions found for "${searchTag}". Try a different tag.`
+              : "Start a discussion to see the latest conversations here."}
+          </p>
+        </div>
       )}
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-6 flex-wrap">
-          {/* Prev Button */}
+        <div className="flex justify-center items-center gap-2 mt-8 flex-wrap">
           <button
             disabled={page === 1}
             onClick={() => setPage(page - 1)}
-            className={`p-2 rounded-full bg-gray-800 dark:bg-slate-700 text-white hover:bg-blue-600 transition ${
-              page === 1 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 dark:bg-slate-700 text-white hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Previous page"
           >
             <FaArrowLeft />
           </button>
 
-          {/* Page Numbers */}
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((pg) => (
             <button
               key={pg}
               onClick={() => setPage(pg)}
-              className={`w-8 h-8 rounded text-sm transition ${
+              className={`w-10 h-10 rounded-full transition ${
                 pg === page
                   ? "bg-blue-600 text-white font-bold"
                   : "bg-gray-800 dark:bg-slate-700 text-white hover:bg-gray-700 dark:hover:bg-slate-600"
               }`}
+              aria-current={pg === page ? "page" : undefined}
             >
               {pg}
             </button>
           ))}
 
-          {/* Next Button */}
           <button
             disabled={page === totalPages}
             onClick={() => setPage(page + 1)}
-            className={`p-2 rounded-full bg-gray-800 dark:bg-slate-700 text-white hover:bg-blue-600 transition ${
-              page === totalPages ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 dark:bg-slate-700 text-white hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Next page"
           >
             <FaArrowRight />
           </button>
