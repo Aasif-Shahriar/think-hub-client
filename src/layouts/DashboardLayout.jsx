@@ -22,6 +22,7 @@ const DashboardLayout = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const { user, logout } = useAuth();
   const { role, roleLoading } = useUserRole();
+  console.log(role, " from dash");
 
   const navLinkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
@@ -71,7 +72,6 @@ const DashboardLayout = () => {
             </div>
           </div>
         </Link>
-       
 
         <hr className="border-gray-200 dark:border-gray-700 mx-4 my-2" />
 
@@ -130,6 +130,10 @@ const DashboardLayout = () => {
                 </>
               ) : (
                 <>
+                  <NavLink to="/dashboard" className={navLinkClass} end>
+                    <FaUser className="text-lg opacity-80" />
+                    <span>Overview</span>
+                  </NavLink>
                   <NavLink
                     to="/dashboard/admin-profile"
                     className={navLinkClass}
@@ -168,7 +172,7 @@ const DashboardLayout = () => {
 
         {/* Logout */}
         <div className="px-2 pb-4">
-           <ThemeToggle />
+          <ThemeToggle />
           <button
             onClick={logout}
             className="w-full flex items-center gap-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 px-4 py-2.5 rounded-lg transition-colors duration-200 text-sm font-medium"

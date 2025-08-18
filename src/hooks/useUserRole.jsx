@@ -6,6 +6,8 @@ const useUserRole = () => {
   const { user, loading: authLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
+  console.log(user);
+
   const {
     data: role = "user",
     isLoading: roleLoading,

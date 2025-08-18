@@ -1,15 +1,12 @@
 import React from "react";
+import Advertisement from "./Advertisement";
 
 const AdSidebar = () => {
   return (
     <div className="space-y-6">
       {/* Advertisement Section */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img
-          src="https://via.placeholder.com/300x250"
-          alt="Advertisement"
-          className="w-full h-auto"
-        />
+        <Advertisement />
       </div>
 
       {/* Top Activity Section */}

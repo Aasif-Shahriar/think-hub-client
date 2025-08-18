@@ -6,6 +6,8 @@ import Announcements from "../announcements/Announcements";
 import UserStatsCard from "../aside-section/user-stats/UserStatsCard";
 import AdSidebar from "../aside-section/ads-card/AdSidebar";
 import FeaturedPosts from "../featured-posts/FeaturedPosts";
+import ProblemSolvingSpotlight from "../Problem-solving-spotlight/ProblemSolvingSpotlight";
+import Leaderboard from "../leader-board/LeaderBoard";
 
 const Home = () => {
   const [searchTag, setSearchTag] = useState("");
@@ -27,7 +29,7 @@ const Home = () => {
         )}
 
         {/* Three-column layout: Sidebars + Main Content */}
-        <div className="max-w-[1560px] mx-auto px-4 py-5 grid grid-cols-1 lg:grid-cols-8 gap-6">
+        <div id="latest" className="max-w-[1560px] mx-auto px-4 py-5 grid grid-cols-1 lg:grid-cols-8 gap-6">
           {/* Left Sidebar: User Profile Stats */}
           <div className="w-full lg:col-span-2">
             <UserStatsCard />
@@ -49,7 +51,16 @@ const Home = () => {
         </div>
 
         {/* featured post */}
-       <div className="bg-white dark:bg-slate-800 py-6"> <FeaturedPosts /></div>
+        <div id="trending" className="bg-white dark:bg-slate-800 py-6">
+          <FeaturedPosts />
+        </div>
+      </div>
+
+      <div id="challenges">
+        <ProblemSolvingSpotlight />
+      </div>
+      <div id="leaderboard" className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-lg py-10 lg:py-16">
+        <Leaderboard />
       </div>
     </>
   );
