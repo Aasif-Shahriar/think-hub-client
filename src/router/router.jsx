@@ -19,6 +19,10 @@ import AdminRoute from "../routes/AdminRoute";
 import Forbidden from "../components/forbidden/Forbidden";
 import NotFoundPage from "../pages/not-found/NotFoundPage";
 import DashboardHome from "../pages/dashboard/dashboard-home/DashboardHome";
+import About from "../pages/footer-component/About";
+import Contact from "../pages/footer-component/Contact";
+import TermsOfService from "../pages/footer-component/TermsOfService";
+import PrivacyPolicy from "../pages/footer-component/PrivacyPolicy";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +60,26 @@ const router = createBrowserRouter([
       {
         path: "/forbidden",
         Component: Forbidden,
+      },
+      {
+        path: "about",
+        Component: About,
+      },
+      {
+        path: "contact",
+        Component: Contact,
+      },
+      {
+        path: "terms",
+        Component: TermsOfService,
+      },
+      {
+        path: "privacy",
+        Component: PrivacyPolicy,
+      },
+      {
+        path: "cookies",
+        Component: PrivacyPolicy,
       },
     ],
   },

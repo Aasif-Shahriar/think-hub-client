@@ -75,8 +75,8 @@ const ManageUsers = () => {
   }
 
   return (
-    <div className="py-4 sm:px-4 md:px-8">
-      <h2 className="text-2xl font-bold mb-4 text-white">Manage Users</h2>
+    <div className="py-4 sm:px-4 md:px-8 bg-white dark:bg-gray-800 text-gray-900 dark:text-white transition-colors duration-300">
+      <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
 
       <div className="flex flex-col sm:flex-row gap-2 mb-4">
         <input
@@ -87,11 +87,11 @@ const ManageUsers = () => {
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSearch();
           }}
-          className="px-4 py-2 rounded bg-slate-800 border border-slate-600 text-white w-full sm:w-64"
+          className="px-4 py-2 rounded bg-gray-100 dark:bg-slate-800 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white w-full sm:w-64 focus:ring-2 focus:ring-blue-500"
         />
         <button
           onClick={handleSearch}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 cursor-pointer transition-colors"
         >
           Search
         </button>
@@ -100,29 +100,33 @@ const ManageUsers = () => {
       {isLoading ? (
         <LoadingBar />
       ) : (
-        <div className="overflow-x-auto rounded border border-slate-700">
+        <div className="overflow-x-auto rounded border border-gray-200 dark:border-slate-700">
           <table className="w-full text-left min-w-[600px] sm:min-w-full">
-            <thead>
-              <tr className="bg-slate-700 text-white">
-                <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">Email</th>
-                <th className="px-4 py-2">Role</th>
-                <th className="px-4 py-2">Membership</th>
+            <thead className="bg-gray-50 dark:bg-slate-700">
+              <tr>
+                <th className="px-4 py-2 font-semibold">Name</th>
+                <th className="px-4 py-2 font-semibold">Email</th>
+                <th className="px-4 py-2 font-semibold">Role</th>
+                <th className="px-4 py-2 font-semibold">Membership</th>
               </tr>
             </thead>
             <tbody>
               {displayedUsers.map((user) => (
                 <tr
                   key={user._id}
-                  className="border-b border-slate-700 text-white"
+                  className="border-b border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                 >
-                  <td className="px-4 py-3 max-w-[150px] truncate">{user.name}</td>
-                  <td className="px-4 py-3 max-w-[200px] truncate">{user.email}</td>
+                  <td className="px-4 py-3 max-w-[150px] truncate">
+                    {user.name}
+                  </td>
+                  <td className="px-4 py-3 max-w-[200px] truncate">
+                    {user.email}
+                  </td>
                   <td className="px-4 py-3">
                     {user.role === "admin" ? (
                       <button
                         onClick={() => handleRemoveAdmin(user.email)}
-                        className="text-red-400 hover:underline cursor-pointer whitespace-nowrap"
+                        className="text-red-500 hover:underline cursor-pointer whitespace-nowrap"
                       >
                         Remove Admin
                       </button>
@@ -135,7 +139,7 @@ const ManageUsers = () => {
                       </button>
                     )}
                   </td>
-                  <td className="px-4 py-3 capitalize text-yellow-600 whitespace-nowrap">
+                  <td className="px-4 py-3 capitalize text-yellow-600 dark:text-yellow-500 whitespace-nowrap">
                     {user.membership}
                   </td>
                 </tr>
@@ -152,9 +156,9 @@ const ManageUsers = () => {
           disabled={page === 1}
           className={`px-3 py-1 rounded ${
             page === 1
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-slate-700 hover:bg-blue-700"
-          } text-white`}
+              ? "bg-gray-300 dark:bg-gray-600 cursor-not-allowed"
+              : "bg-gray-200 dark:bg-slate-700 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-700"
+          } text-gray-800 dark:text-white transition-colors`}
         >
           Prev
         </button>
@@ -166,8 +170,8 @@ const ManageUsers = () => {
             className={`px-3 py-1 rounded ${
               page === i + 1
                 ? "bg-blue-600 text-white"
-                : "bg-slate-700 text-gray-300"
-            } hover:bg-blue-700 cursor-pointer`}
+                : "bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-300"
+            } hover:bg-blue-600 hover:text-white dark:hover:bg-blue-700 cursor-pointer transition-colors`}
           >
             {i + 1}
           </button>
@@ -178,9 +182,9 @@ const ManageUsers = () => {
           disabled={page === totalPages}
           className={`px-3 py-1 rounded ${
             page === totalPages
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-slate-700 hover:bg-blue-700"
-          } text-white`}
+              ? "bg-gray-300 dark:bg-gray-600 cursor-not-allowed"
+              : "bg-gray-200 dark:bg-slate-700 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-700"
+          } text-gray-800 dark:text-white transition-colors`}
         >
           Next
         </button>
@@ -195,19 +199,20 @@ const ManageUsers = () => {
         <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
 
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="bg-slate-800 p-6 rounded-lg max-w-md w-full text-white shadow-xl">
+          <Dialog.Panel className="bg-white dark:bg-slate-800 p-6 rounded-lg max-w-md w-full text-gray-900 dark:text-white shadow-xl">
             <Dialog.Title className="text-xl font-bold mb-2">
               Confirm Make Admin
             </Dialog.Title>
-            <p className="text-sm text-gray-300 mb-4">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
               Are you sure you want to promote the following user to admin?
             </p>
-            <div className="bg-slate-700 p-3 rounded mb-4">
+            <div className="bg-gray-100 dark:bg-slate-700 p-3 rounded mb-4">
               <p>
                 <span className="font-medium">Name:</span> {selectedUser?.name}
               </p>
               <p>
-                <span className="font-medium">Email:</span> {selectedUser?.email}
+                <span className="font-medium">Email:</span>{" "}
+                {selectedUser?.email}
               </p>
               <p>
                 <span className="font-medium">Membership:</span>{" "}
@@ -217,13 +222,13 @@ const ManageUsers = () => {
             <div className="flex justify-end gap-2 flex-wrap">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded cursor-pointer"
+                className="px-4 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700 rounded cursor-pointer transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleMakeAdmin(selectedUser.email)}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded cursor-pointer"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded cursor-pointer transition-colors"
               >
                 Confirm
               </button>
@@ -232,7 +237,7 @@ const ManageUsers = () => {
         </div>
       </Dialog>
 
-      <title>Manage | ThinkHub</title>
+      <title>Manage Users | ThinkHub</title>
     </div>
   );
 };

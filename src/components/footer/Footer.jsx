@@ -1,10 +1,11 @@
 import React from "react";
 import { FaFacebookF, FaTwitter, FaGithub, FaLinkedinIn } from "react-icons/fa";
 import ThinkHubLogo from "../logo/ThinkHubLogo";
+import { Link } from "react-router";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-200 dark:bg-slate-800 text-gray-900 dark:text-gray-200 py-10 transition-colors duration-300">
+    <footer className="bg-gray-200 dark:bg-slate-900 text-gray-900 dark:text-gray-200 py-10 transition-colors duration-300">
       <div className="max-w-[1560px] mx-auto px-4">
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-300 dark:border-gray-700 pb-8">
@@ -58,12 +59,12 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a
-                  href="/about"
+                <Link
+                  to="/about"
                   className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                 >
                   About
-                </a>
+                </Link>
               </li>
               <li>
                 <a

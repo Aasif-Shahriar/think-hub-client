@@ -31,7 +31,7 @@ const PostDetails = () => {
 
   return (
     <>
-      <div className="bg-gray-100 dark:bg-slate-900 min-h-[calc(100vh-16rem)] text-gray-900 dark:text-white px-4 py-8 transition-colors duration-300">
+      <div className="bg-gray-100 dark:bg-slate-700 min-h-[calc(100vh-16rem)] text-gray-900 dark:text-white px-4 py-8 transition-colors duration-300">
         {/* Post Info */}
         <PostInfo post={post} />
 

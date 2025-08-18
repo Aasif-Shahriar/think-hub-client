@@ -198,7 +198,7 @@ const DiscussionCard = ({ post }) => {
 
       </div>
       {/* comment section */}
-       <div className="p-4">
+       <div className="px-4">
          {showCommentSection && <CommentsSection postId={_id} />}
        </div>
     </div>

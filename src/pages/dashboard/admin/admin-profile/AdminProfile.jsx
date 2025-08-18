@@ -76,7 +76,7 @@ const AdminProfile = () => {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto bg-slate-800 p-6 rounded-2xl shadow-md text-white">
+    <div className="max-w-4xl mx-auto bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg text-gray-800 dark:text-white transition-colors duration-300">
       <title>Admin Profile | ThinkHub</title>
 
       {/* admin profile */}
@@ -84,40 +84,52 @@ const AdminProfile = () => {
         <img
           src={user?.photoURL || "https://i.ibb.co/tMzM9sm/user.png"}
           alt="Admin"
-          className="w-20 h-20 rounded-full border-4 border-blue-600"
+          className="w-20 h-20 rounded-full border-4 border-blue-500 dark:border-blue-600"
         />
         <div>
-          <h2 className="text-2xl font-bold">{user?.displayName}</h2>
-          <p className="text-sm text-gray-400">{user?.email}</p>
-          <span className="text-xs font-medium text-green-500 uppercase">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            {user?.displayName}
+          </h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {user?.email}
+          </p>
+          <span className="text-xs font-medium text-green-600 dark:text-green-500 uppercase px-2 py-1 bg-green-100 dark:bg-green-900 rounded-full">
             {role}
           </span>
         </div>
       </div>
       {/* stats card */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div className="bg-slate-700 p-4 rounded-lg text-center">
-          <h3 className="text-lg font-semibold text-gray-300">Total Posts</h3>
-          <p className="text-3xl font-bold text-blue-500">{stats.totalPosts}</p>
+        <div className="bg-gray-100 dark:bg-slate-700 p-4 rounded-lg text-center shadow">
+          <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300">
+            Total Posts
+          </h3>
+          <p className="text-3xl font-bold text-blue-600 dark:text-blue-500">
+            {stats.totalPosts}
+          </p>
         </div>
-        <div className="bg-slate-700 p-4 rounded-lg text-center">
-          <h3 className="text-lg font-semibold text-gray-300">
+        <div className="bg-gray-100 dark:bg-slate-700 p-4 rounded-lg text-center shadow">
+          <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300">
             Total Comments
           </h3>
-          <p className="text-3xl font-bold text-green-500">
+          <p className="text-3xl font-bold text-green-600 dark:text-green-500">
             {stats.totalComments}
           </p>
         </div>
-        <div className="bg-slate-700 p-4 rounded-lg text-center">
-          <h3 className="text-lg font-semibold text-gray-300">Total Users</h3>
-          <p className="text-3xl font-bold text-yellow-400">
+        <div className="bg-gray-100 dark:bg-slate-700 p-4 rounded-lg text-center shadow">
+          <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300">
+            Total Users
+          </h3>
+          <p className="text-3xl font-bold text-yellow-500 dark:text-yellow-400">
             {stats.totalUsers}
           </p>
         </div>
       </div>
       {/* overview chart */}
-      <div className="bg-slate-700 p-6 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4">Overview Chart</h3>
+      <div className="bg-gray-100 dark:bg-slate-700 p-6 rounded-lg shadow">
+        <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+          Overview Chart
+        </h3>
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
             <Pie
@@ -134,21 +146,28 @@ const AdminProfile = () => {
                 />
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "rgba(30, 41, 59, 0.8)",
+                borderColor: "#4A5568",
+              }}
+            />
             <Legend />
           </PieChart>
         </ResponsiveContainer>
       </div>
 
       {/* --- Tag Creation Form --- */}
-      <div className="mt-10 bg-slate-700 p-6 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4">Add New Tag</h3>
+      <div className="mt-10 bg-gray-100 dark:bg-slate-700 p-6 rounded-lg shadow">
+        <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+          Add New Tag
+        </h3>
         <form onSubmit={handleAddTag} className="max-w-md">
           <div className="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
-              className="flex-grow px-4 py-2 rounded-md border border-gray-300 shadow-sm text-blue-500 placeholder-gray-500
-                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="flex-grow px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-blue-400 placeholder-gray-400 dark:placeholder-gray-500 shadow-sm
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
               placeholder="Enter new tag name"
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
@@ -157,7 +176,7 @@ const AdminProfile = () => {
             <button
               type="submit"
               className="w-full sm:w-auto bg-blue-600 text-white px-5 py-2 rounded-md
-                 hover:bg-blue-700 disabled:opacity-50 transition-colors duration-200"
+                 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               disabled={loading}
             >
               {loading ? "Adding..." : "Add Tag"}

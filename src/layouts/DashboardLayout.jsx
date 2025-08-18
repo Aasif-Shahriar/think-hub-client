@@ -195,11 +195,8 @@ const DashboardLayout = () => {
             <FaBars />
           </button>
         </div>
-
-        <div
-          className="
-         bg-white dark:bg-gray-800 shadow-sm p-6 border border-gray-100 dark:border-gray-700"
-        >
+        {/* bg-white dark:bg-gray-800 shadow-sm p-6 border border-gray-100 dark:border-gray-700 */}
+        <div className="p-6">
           <Outlet />
         </div>
       </div>

@@ -61,7 +61,7 @@ const CommentsSection = ({ postId }) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto pt-10 text-gray-900 dark:text-white">
+    <div className="max-w-3xl mx-auto py-10 text-gray-900 dark:text-white">
       {/* Top Heading */}
       <h2 className="text-2xl font-semibold mb-6">
         Comments ({comments.length})
